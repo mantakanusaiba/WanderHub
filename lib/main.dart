@@ -96,6 +96,9 @@ class HomeScreen extends StatelessWidget {
                 buildContainer(context, 'https://www.shutterstock.com/image-photo/beauty-saint-martin-island-coxs-600nw-2308207335.jpg', 'Cox Bazar', DestinationPage1()),
                 buildContainer(context, 'https://www.shutterstock.com/image-photo/rangamati-located-chittagong-division-bordered-600nw-2271327159.jpg', 'Rangamati', DestinationPage2()),
                 buildContainer(context, 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/06/e2/71/sangu-river.jpg?w=500&h=400&s=1', 'Bandarban', DestinationPage3()),
+                buildContainer(context, 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Jaflong_Sylhet.jpg', 'Sylhet', DestinationPage4()),
+                buildContainer(context, 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sajek_Valley_Rangamati_2.jpg/150px-Sajek_Valley_Rangamati_2.jpg', 'Sajek', DestinationPage5()),
+
               ],
             ),
           ),
@@ -145,3 +148,32 @@ class DestinationPage3 extends StatelessWidget {
     );
   }
 }
+
+class DestinationPage4 extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: Appbar(
+        title:Text('Sylhet'),
+        ),
+      body:Center(
+        child:Text('Details about Sylhet'),
+        ),
+      );
+  }
+}
+
+class DestinationPage5 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Sajek'),
+      ),
+      body: Center(
+        child: Text('Details about Sajek'),
+      ),
+    );
+  }
+}
+  
