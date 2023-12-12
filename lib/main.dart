@@ -13,6 +13,37 @@ class MyApp extends StatelessWidget {
   }
 }
 class HomeScreen extends StatelessWidget {
+  Widget buildContainer(BuildContext context, String imageUrl, String title, Widget destinationPage) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => destinationPage),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.all(10),
+        width: 200,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+            image: NetworkImage(imageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +78,69 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+         SizedBox(height: 20),
+          Text(
+            'Explore Bangladesh',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                buildContainer(context, 'https://www.shutterstock.com/image-photo/beauty-saint-martin-island-coxs-600nw-2308207335.jpg', 'Cox Bazar', DestinationPage1()),
+                buildContainer(context, 'https://www.shutterstock.com/image-photo/rangamati-located-chittagong-division-bordered-600nw-2271327159.jpg', 'Rangamati', DestinationPage2()),
+                buildContainer(context, 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/06/e2/71/sangu-river.jpg?w=500&h=400&s=1', 'Bandarban', DestinationPage3()),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+class DestinationPage1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Cox Bazar'),
+      ),
+      body: Center(
+        child: Text('Details about Cox Bazar'),
+      ),
+    );
+  }
+}
+
+class DestinationPage2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Rangamati'),
+      ),
+      body: Center(
+        child: Text('Details about Rangamati'),
+      ),
+    );
+  }
+}
+
+class DestinationPage3 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Bandarban'),
+      ),
+      body: Center(
+        child: Text('Details about Bandarban'),
       ),
     );
   }
