@@ -213,34 +213,193 @@ class DestinationPage1 extends StatelessWidget {
     );
   }
 }
-
-
-  class DestinationPage2 extends StatelessWidget {
+class DestinationPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rangamati'),
+        title: Text('Rangamati',
+          style: TextStyle(fontFamily: 'Pacifico-Regular'),
+        ),
       ),
-      body: Center(
-        child: Text('Details about Rangamati'),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              'https://images.unsplash.com/photo-1697560000533-02df4c5a1a47?q=80&w=1854&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              height: 200,
+              width: 480,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Welcome to Rangamati!',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,
+                  fontFamily: 'Pacifico-Regular'),
+            ),
+            Text(
+              'Rangamati is a picturesque district located in the Chittagong Hill Tracts of Bangladesh. '
+                  'It is known for its stunning landscapes, serene lakes, and vibrant indigenous cultures. Here are some places you might want to visit in Rangamati:',
+              style: TextStyle(fontSize: 18,fontFamily:'DancingScript-Regular'),
+            ),
+            SizedBox(height: 20),
+            buildAttraction2('1.Kaptai Lake',
+                'This is the largest man-made lake in Bangladesh which offers breathtaking views of the surrounding hills and is a popular spot for boat rides.',
+                'https://images.unsplash.com/photo-1576419326170-74f6f9451993?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+            buildAttraction2('2.Shuvolong Waterfall',
+                'Located near Kaptai Lake, Shuvolong is a beautiful waterfall surrounded by lush greenery.',
+                'https://images.unsplash.com/photo-1525824236856-8c0a31dfe3be?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+            buildAttraction2('3.Jhulonto Bridge',
+                'It\'s a great place to take a leisurely stroll while enjoying the scenic beauty of the Karnaphuli river and the hills.',
+                'https://upload.wikimedia.org/wikipedia/commons/7/73/Hanging_bridge_of_Rangamati%2C_Bangladesh._.jpg'),
+            SizedBox(height: 20),
+            Text(
+              'Moreover, explore Rangamati\'s history at Rajbari museum, tranquility at Rajbon Bihar, and scenic views from Peda Ting Ting hill. Discover indigenous cultures at the Tribal Museum. Stay uniquely at Borkol Eco Cottage or Tuk Tuk Eco Village for a compact yet diverse Rangamati experience.',
+              style: TextStyle(fontSize: 16,fontFamily: 'Pacifico-Regular'),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
+Widget buildAttraction2(String title, String description, String imageUrl) {
+  return Card(
+    elevation: 5,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    color: Colors.lightBlue[100],
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            ' $title:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,fontFamily: 'Pacifico-Regular'),
+          ),
+          SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              imageUrl,
+              height: 100,
+              width: 180,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            description,
+            style: TextStyle(fontSize: 15,fontFamily:'DancingScript-Regular'),
+          ),
+          SizedBox(height: 10),
+        ],
+      ),
+    ),
+  );
+}
 class DestinationPage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bandarban'),
+        title: Text('Bandarban',
+          style: TextStyle(fontFamily: 'Pacifico-Regular'),
+        ),
       ),
-      body: Center(
-        child: Text('Details about Bandarban'),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              'https://images.unsplash.com/photo-1631642386603-5618fa038ad1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmFuZGFyYmFufGVufDB8fDB8fHww',
+              height: 200,
+              width: 480,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Welcome to Bandarban, a mesmerizing destination nestled in the Chittagong Hill Tracts.',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,
+                  fontFamily: 'Pacifico-Regular'),
+            ),
+            Text(
+                  'Enjoy a captivating destination known for its scenic landscapes, indigenous cultures, and natural attractions:',
+              style: TextStyle(fontSize: 18,fontFamily:'DancingScript-Regular'),
+            ),
+            SizedBox(height: 20),
+            buildAttraction3('1.Nilgiri Hills',
+                'Welcome to Nilgiri, where the clouds dance with the mountains. Enjoy panoramic views and cool breezes from one of the highest peaks in Bangladesh.',
+                'https://images.unsplash.com/photo-1624485871361-65454b13edfa?q=80&w=2058&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+            buildAttraction3('2.Meghla Tourist Complex',
+                'Discover the Meghla Tourist Complex, offering a variety of attractions such as a zoo, boat rides, and a hanging bridge. ',
+                'https://images.unsplash.com/photo-1651923675044-a25776b5a25f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVnaGxhJTIwYmFuZGFyYmFufGVufDB8fDB8fHww'),
+            buildAttraction3('3.Nafakhum Waterfall',
+                'Embrace the serenity of Nafakhum, the largest waterfall in Bangladesh.',
+                'https://images.unsplash.com/photo-1558673810-9b0b6316d4f4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+            buildAttraction3('4.Sangu River',
+                'A significant waterway surrounded by hills covered with dense forests.',
+                'https://images.unsplash.com/photo-1586948298331-a07cd866d3bb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWVnaGxhJTIwYmFuZGFyYmFufGVufDB8fDB8fHww'),
+            buildAttraction3('5.Chimbuk Hill',
+                'Revel in the breathtaking views of the surrounding hills and landscapes.',
+                'https://upload.wikimedia.org/wikipedia/commons/1/1b/Chimbuk_Hill_-_panoramio.jpg'),
+            buildAttraction3('6.Nilachol',
+                'A mesmerizing hill station known for its panoramic views, mist-covered peaks, and lush green landscapes.',
+                'https://images.unsplash.com/photo-1578599133584-d632fdcaa733?q=80&w=2038&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+            SizedBox(height: 20),
+            Text(
+              'As you embark on your journey through Bandarban, may each destination leave you with lasting memories of natural beauty and cultural diversity!',
+              style: TextStyle(fontSize: 16,fontFamily: 'Pacifico-Regular'),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+Widget buildAttraction3(String title, String description, String imageUrl) {
+  return Card(
+    elevation: 5,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    color: Colors.lightBlue[100],
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            ' $title:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,fontFamily: 'Pacifico-Regular'),
+          ),
+          SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              imageUrl,
+              height: 100,
+              width: 180,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            description,
+            style: TextStyle(fontSize: 15,fontFamily:'DancingScript-Regular'),
+          ),
+          SizedBox(height: 10),
+        ],
+      ),
+    ),
+  );
 }
 
 class DestinationPage4 extends StatelessWidget {
