@@ -214,7 +214,6 @@ class DestinationPage1 extends StatelessWidget {
   }
 }
 
-
   class DestinationPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
