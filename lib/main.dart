@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                 buildContainer(context, 'https://www.shutterstock.com/image-photo/rangamati-located-chittagong-division-bordered-600nw-2271327159.jpg', 'Rangamati', DestinationPage2()),
                 buildContainer(context, 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/06/e2/71/sangu-river.jpg?w=500&h=400&s=1', 'Bandarban', DestinationPage3()),
                 buildContainer(context, 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Jaflong_Sylhet.jpg', 'Sylhet', DestinationPage4()),
-                buildContainer(context, 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sajek_Valley_Rangamati_2.jpg/150px-Sajek_Valley_Rangamati_2.jpg', 'Sajek', DestinationPage5()),
+                buildContainer(context, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO4lq5w7DU-OwyIp0NL12nKg942tFLQScGvw&usqp=CAU','Sunamgonj', DestinationPage5()),
               ],
             ),
           ),
@@ -402,15 +402,108 @@ Widget buildAttraction3(String title, String description, String imageUrl) {
   );
 }
 
+
+
 class DestinationPage4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sylhet'),
+        title: Text('Sylhet',
+          style: TextStyle(fontFamily: 'Pacifico-Regular'),
+        ),
       ),
-      body: Center(
-        child: Text('Details about Sylhet'),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              'https://cdn-gdpal.nitrocdn.com/wYTsNDvTtivyqMQKozkdeShFCCdGExJz/assets/images/source/rev-b1c501a/wp-content/uploads/2022/07/2.jpg-1.png',
+              height: 200,
+              width: 480,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Welcome to Sylhet!',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold,
+                  fontFamily: 'Pacifico-Regular'),
+            ),
+            Text(
+              'Sylhet, a picturesque region in northeastern Bangladesh, is known for its lush green landscapes, tea gardens, and cultural richness. '
+                'Here\'s a short description of some notable places to visit in Sylhet:',
+              style: TextStyle(fontSize: 20,fontFamily:'Dancing_Script',),
+
+            ),
+            SizedBox(height: 20),
+            buildAttraction4('1.Jaflong',
+                'Jaflong is known for its breathtaking views and the Dawki River, providing a tranquil setting for visitors.',
+                'https://www.shutterstock.com/image-photo/jaflong-hill-station-tourist-destination-260nw-2285029863.jpg'),
+            buildAttraction4('2.Ratargul Swamp Forest',
+                'Visitors can explore the serene surroundings by boat, enjoying the tranquility and spotting various species of flora and fauna.',
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-JfM29IUGYamyBP7E2DfX7HFU1YTqLfPTug&usqp=CAU'),
+            buildAttraction4('3.Lakkatura Tea Garden',
+                'Lakkatura provides guided tours, allowing visitors to learn about tea cultivation amidst beautiful surroundings.',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdLyM9ZtE7sZBWI1g_oUKQ8WIqyMtSkpCAP_ekrHyu7QM4MtXJmRl7tdCsNiWZxJoTqjA&usqp=CAU'),
+            buildAttraction4('4.Lalakhal',
+                'Visitors can take boat rides to appreciate the scenic beauty, and the nearby Ratnodweep offers a serene retreat.',
+                'https://i.redd.it/6vn40gmf33l61.jpg'),
+            buildAttraction4('5.Sada Pathor',
+                'Visitors can explore the unique rock formations and witness the crystal-clear water flowing over the smooth white stones.',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE12XSWbSzo7q2YIE9uDXT3WF_-1TtN45GU0nzNmGQuEDTh8vtPvBfymZ937e2i8QI918&usqp=CAU'),
+            buildAttraction4('6.Bichanakandi',
+                'The area is surrounded by hills and offers boat rides through the rivers, providing visitors with a unique and immersive experience.',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCHPgBErsCwG2syrNGlw54Uys7q-l0bpaWd1ZcbWw5joLhOJXGMtgihSYYgTnMTzyEg7o&usqp=CAU'),
+            buildAttraction4('7.Madhabkunda',
+                'Visitors to Madhabkundu are greeted by the cascading waters of the waterfall, surrounded by lush greenery and rocky terrain.',
+                'https://porzoton.com/wp-content/uploads/elementor/thumbs/Madhabkunda_Waterfall02-ovn6gewcn33xuo1fz6t5bui5yzq1uxsv5f48jbxlma.jpg'),
+
+            SizedBox(height: 20),
+            Text(
+              'Sylhet\'s diverse attractions make it an appealing destination for nature lovers, history enthusiasts, and those seeking a peaceful retreat amidst natural beauty.',
+              style: TextStyle(fontSize: 16,fontFamily:'Pacifico-Regular'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildAttraction4(String title, String description, String imageUrl) {
+    return Card(
+      elevation: 7,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Colors.lightBlue[100],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              ' $title:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,fontFamily:'Pacifico-Regular'),
+            ),
+            SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                imageUrl,
+                height: 100,
+                width: 180,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height:8),
+            Text(
+              description,
+              style: TextStyle(fontSize: 15,fontFamily:'Dancing_Script'),
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
@@ -421,11 +514,95 @@ class DestinationPage5 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sajek'),
+        title: Text('Sunamgonj',
+          style: TextStyle(fontFamily: 'Pacifico-Regular'),
+        ),
       ),
-      body: Center(
-        child: Text('Details about Sajek'),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              'https://ruchiexplorelimitless.com/images/blog/1592080801.jpg',
+              height: 200,
+              width: 480,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Welcome to Sunamgonj!',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,
+                  fontFamily: 'Pacifico-Regular'),
+            ),
+            Text(
+                  'Sunamganj, located in the northeastern part of Bangladesh, is a district known for its enchanting landscapes and cultural richness.  '
+                  'Here are some must-visit attractions:',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            buildAttraction5('1.Tanguar Haor',
+                'Visitors can experience serene boat rides, witness diverse bird species, and appreciate the harmonious coexistence of communities around the haor.',
+                'https://ecom.travelbd.xyz/wp-content/uploads/2023/03/Tanguar-Haor.jpg'),
+            buildAttraction5('2.Joynal Abedin Shimul Garden',
+                'Feelings of mild cold, gentle breeze, mountains on one side, magical river waves in the middle, and the call of spring on the newly sprouted green leaves, as if Fagun\'s fire had started in the Shimul garden of Sunamganj.',
+                'https://www.localguidesconnect.com/t5/image/serverpage/image-id/275429i7626C60BF788D8C0/image-size/large?v=v2&px=999'),
+            buildAttraction5('3.Niladri Lake',
+                'Niladri Lake attracts many nature-lovers who enjoy the beauty of its hilly surroundings and blue water.It’s like losing in a blue kingdom.It seems, the place filled with the heavenly beauty.',
+                'https://i.pinimg.com/736x/7c/00/0a/7c000a6924cd645a91a0e9a8de26494b.jpg'),
+            buildAttraction5('4.Jadukata Bridge',
+                'It\'s a great place to take a leisurely stroll while enjoying the scenic beauty of the Jadukata river ',
+                'https://photos.wikimapia.org/p/00/02/77/96/88_big.jpg'),
+            
+            SizedBox(height: 20),
+            Text(
+              'Sunamganj invites travelers to experience the serene beauty and cultural heritage that make it a distinctive destination in Bangladesh.',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildAttraction5(String title, String description, String imageUrl) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Colors.lightBlue[100],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              ' $title:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                imageUrl,
+                height: 100,
+                width: 180,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height:8),
+            Text(
+              description,
+              style: TextStyle(fontSize: 15),
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
 }
+
+
+
