@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "738330987623",
+    "project_id": "wanderhub-3410",
+    "storage_bucket": "wanderhub-3410.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738330987623:android:a02fffeb52e9a3175018c2",
+        "android_client_info": {
+          "package_name": "com.example.wander_hub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0hTOsb3tqM8FBt0TD3fJRA9yABDTh4PU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738330987623:android:f3701618ff92f3b15018c2",
+        "android_client_info": {
+          "package_name": "com.example.wanderhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0hTOsb3tqM8FBt0TD3fJRA9yABDTh4PU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

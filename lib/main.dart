@@ -1,6 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'authListener.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -17,7 +24,7 @@ class HomeScreen extends StatelessWidget {
   void _handleLoginButtonPress(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => AuthListener()),
     );
   }
 
@@ -287,24 +294,6 @@ class HomeScreen extends StatelessWidget {
 }
 
 
-
-class LoginPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login',
-          style: TextStyle(fontSize: 24,
-              fontFamily: 'Pacifico-Regular'),
-        ),
-      ),
-      body: Center(
-        child: Text('This is the login page'),
-      ),
-    );
-  }
-}
-
 class HotelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -535,7 +524,7 @@ class DestinationPage1 extends StatelessWidget {
             SizedBox(height: 20),
             buildAttraction('1.Cox\'s Bazar Beach',
                 'Embark on an unforgettable seaside experience along one of the world\'s longest sandy stretches.',
-                'https://res.cloudinary.com/dnvftrlhk/image/upload/f_webp/c_fill,h_360,w_573/v1694241741/tour_image/coxs-bazar-saint-martins-island-package/coxs-bazar-saint-martins-island-package.73.jpg'),
+                'https://images.unsplash.com/photo-1687340148555-e060afb6aee1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
             buildAttraction('2.Himchari National Park',
                 'Immerse yourself in nature with hiking trails and glimpses of diverse wildlife.',
                 'https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/sid-rahman/246G4diJfHrXcsxFWwm2QpAhNQqJxwpQtp6c3ZnVb2RhxyGFazjtwoatwxBUJ2DqWg2tW.jpg'),
@@ -933,7 +922,7 @@ class DestinationPage5 extends StatelessWidget {
             SizedBox(height: 20),
             buildAttraction5('1.Tanguar Haor',
                 'Visitors can experience serene boat rides, witness diverse bird species, and appreciate the harmonious coexistence of communities around the haor.',
-                'https://ecom.travelbd.xyz/wp-content/uploads/2023/03/Tanguar-Haor.jpg'),
+                'https://images.unsplash.com/photo-1695277501535-691c6a843578?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
             buildAttraction5('2.Joynal Abedin Shimul Garden',
                 'Feelings of mild cold, gentle breeze, mountains on one side, magical river waves in the middle, and the call of spring on the newly sprouted green leaves, as if Fagun\'s fire had started in the Shimul garden of Sunamganj.',
                 'https://www.localguidesconnect.com/t5/image/serverpage/image-id/275429i7626C60BF788D8C0/image-size/large?v=v2&px=999'),
