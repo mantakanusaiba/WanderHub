@@ -12,12 +12,12 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  String? selectedRole;
   bool loadingVisible = false;
-  final _formKeyLogin = GlobalKey<FormState>();
+  final _formKeyRegister = GlobalKey<FormState>();
   DatabaseService _databaseService = DatabaseService();
 
   @override
@@ -27,15 +27,14 @@ class _RegisterState extends State<Register> {
         title: Text('Register Now !'),
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(10.0),
         child: Form(
-          key: _formKeyLogin,
+          key: _formKeyRegister,
           child: Column(
             children: [
               SizedBox(
-                height: 30.0,
+                height: 20.0,
               ),
-              // for Name
               TextFormField(
                 controller: nameController,
                 decoration: InputDecoration(hintText: "Name"),
@@ -44,16 +43,14 @@ class _RegisterState extends State<Register> {
                 },
                 validator: (value) {
                   if (value!.trim().isEmpty) {
-                    return 'Enter Your Name !';
+                    return 'Enter Your Name :';
                   } else
                     return null;
                 },
               ),
-
               SizedBox(
                 height: 30.0,
               ),
-              // for email
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(hintText: "Email"),
@@ -62,7 +59,7 @@ class _RegisterState extends State<Register> {
                 },
                 validator: (value) {
                   if (value!.trim().isEmpty) {
-                    return 'Enter your Email !';
+                    return 'Enter your Email :';
                   } else
                     return null;
                 },
@@ -70,8 +67,6 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: 30.0,
               ),
-
-              // for password
               TextFormField(
                 controller: passwordController,
                 decoration: InputDecoration(hintText: "Password"),
@@ -90,35 +85,63 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: 30.0,
               ),
-              // Login Button
+              DropdownButtonFormField<String>(
+                value: selectedRole,
+                onChanged: (value) {
+                  setState(() {
+                    selectedRole = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Select Role',
+                ),
+                items: ['User', 'Owner-Hotel', 'Owner-Bus', 'Owner-Flight'].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Select your role';
+                  } else {
+                    return null;
+                  }
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
               ElevatedButton(
-                  onPressed: () async {
-                    if (_formKeyLogin.currentState!.validate()) {
+                onPressed: () async {
+                  if (_formKeyRegister.currentState!.validate()) {
+                    setState(() {
+                      loadingVisible = true;
+                    });
+                    dynamic result = await _databaseService.registerUser(
+                      nameController.text,
+                      emailController.text,
+                      passwordController.text,
+                      selectedRole.toString(),
+                    );
+
+                    if (result is! CustomUser) {
                       setState(() {
-                        loadingVisible = true;
+                        loadingVisible = false;
                       });
-                      dynamic result = await _databaseService.registerUser(
-                          nameController.text,
-                          emailController.text,
-                          passwordController.text,
-                         );
-
-                      if (result is! CustomUser){
-                        setState(() {
-                          loadingVisible = false;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                duration: Duration(seconds: 4),
-                                content: Text("Something went wrong, try again !"),
-                            )
-                        );
-                      }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(seconds: 4),
+                          content: Text("Something went wrong, try again !"),
+                        ),
+                      );
                     }
-                  },
-                  child: Text("Register")),
-
+                  }
+                },
+                child: Text("Register"),
+              ),
               SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -126,18 +149,19 @@ class _RegisterState extends State<Register> {
                   Text("Already Have an Account?"),
                   SizedBox(width: 10,),
                   GestureDetector(
-                      onTap: () {
-                        widget.togglePage();
-                      },
-                      child: Text("Login",
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.lightBlueAccent
-                        ),)
+                    onTap: () {
+                      widget.togglePage();
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.lightBlueAccent,
+                      ),
+                    ),
                   ),
                 ],
               ),
-
               SizedBox(height: 10,),
               Visibility(
                 visible: loadingVisible,

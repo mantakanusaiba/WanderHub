@@ -1,7 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wanderhub/databaseService.dart';
 import 'authListener.dart';
 import 'firebase_options.dart';
+import 'tour_page.dart';
+import 'hotel_page.dart';
+import 'bus.dart';
+import 'flight.dart';
+import 'others_page.dart';
+import 'home.dart';
+import 'business.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,6 +18,15 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
+}
+
+class FirestoreService {
+  final CollectionReference imageCollection =
+  FirebaseFirestore.instance.collection('images');
+
+  Future<void> addImageUrl(String imageUrl) async {
+    await imageCollection.add({'imageUrl': imageUrl});
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -28,6 +46,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+
   void _handleHotelButtonPress(BuildContext context) {
     Navigator.push(
       context,
@@ -42,10 +61,24 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _handleTicketButtonPress(BuildContext context) {
+  void _handleBusButtonPress(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => TicketPage()),
+      MaterialPageRoute(builder: (context) => BusPage()),
+    );
+  }
+
+  void _handleFlightButtonPress(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FlightPage()),
+    );
+  }
+
+  void _handleBusinessButtonPress(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BusinessPage()),
     );
   }
 
@@ -108,12 +141,70 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.lightBlueAccent,
         actions: [
           IconButton(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.login),
             onPressed: () {
-              _handleLoginButtonPress(context);
+              String userId = "someUserId";
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home(userId)),
+              );
             },
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.lightBlueAccent,
+              ),
+              child: Text(
+                'WanderHub',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Log In'),
+              onTap: () {
+                _handleLoginButtonPress(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.business_center_outlined),
+              title: Text('For Business'),
+              onTap: () {
+                _handleBusinessButtonPress(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.question_mark),
+              title: Text('Others'),
+              onTap: () {
+                _handleOthersButtonPress(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
+              onTap: () async {
+                await DatabaseService().logoutUser();
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('You are logged out.'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       body: Column(
         children: [
@@ -163,15 +254,34 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: IconButton(
                       onPressed: () {
-                        _handleTicketButtonPress(context);
+                        _handleBusButtonPress(context);
                       },
                       icon: Row(
                         children: [
                           Icon(
-                            Icons.airplane_ticket_rounded,
+                            Icons.directions_bus_filled_rounded,
                           ),
                           SizedBox(width: 8.0),
-                          Text('Ticket',
+                          Text('Bus',
+                            style: TextStyle(
+                              fontFamily: 'Pacifico-Regular',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                      onPressed: () {
+                        _handleFlightButtonPress(context);
+                      },
+                      icon: Row(
+                        children: [
+                          Icon(
+                          Icons.airplane_ticket_rounded,),
+                          SizedBox(width: 8.0),
+                          Text('Flight',
                             style: TextStyle(
                               fontFamily: 'Pacifico-Regular',
                             ),
@@ -205,27 +315,9 @@ class HomeScreen extends StatelessWidget {
                       },
                       icon: Row(
                         children: [
-                          Icon(Icons.tour),
+                          Icon(Icons.beach_access_rounded),
                           SizedBox(width: 8.0),
                           Text('Tour',
-                            style: TextStyle(
-                              fontFamily: 'Pacifico-Regular',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () {
-                        _handleOthersButtonPress(context);
-                      },
-                      icon: Row(
-                        children: [
-                          Icon(Icons.question_mark),
-                          SizedBox(width: 8.0),
-                          Text('Others',
                             style: TextStyle(
                               fontFamily: 'Pacifico-Regular',
                             ),
@@ -262,7 +354,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 buildContainer(
                   context,
-                  'https://www.shutterstock.com/image-photo/rangamati-located-chittagong-division-bordered-600nw-2271327159.jpg',
+                  'https://images.unsplash.com/photo-1636553353871-e02bf0afb7da?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHJhbmdhbWF0aXxlbnwwfHwwfHx8MA%3D%3D',
                   'Rangamati',
                   DestinationPage2(),
                 ),
@@ -288,100 +380,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-
-class HotelPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Hotel Booking',
-          style: TextStyle(fontSize: 24,
-              fontFamily: 'Pacifico-Regular'),
-        ),
-      ),
-      body: Center(
-        child: Text('This is the Hotel page'),
-      ),
-    );
-  }
-}
-
-class TicketPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Ticket Booking',
-          style: TextStyle(fontSize: 24,
-              fontFamily: 'Pacifico-Regular'),
-        ),
-      ),
-      body: Center(
-        child: Text('This is the Ticket page'),
-      ),
-    );
-  }
-}
-
-class TourPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Group Tour',
-          style: TextStyle(fontSize: 24,
-              fontFamily: 'Pacifico-Regular'),
-        ),
-      ),
-
-      body: Center(
-        child: Text('This is the Tour page'),
-      ),
-    );
-  }
-}
-
-class OthersPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Others',
-          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular'),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Why WanderHub?',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Pacifico-Regular'
-              ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'User-Friendly Interface: WanderHub offers a user-friendly and intuitive interface that makes it easy for users of all tech-skill levels to search for and book flights. Whether you\'re a seasoned traveller or a first-time flyer, the platform ensures a smooth booking experience.\n\n'
-                  'Extensive Ticket & Hotel Options: WanderHub provides access to an extensive ticket options database and over 1 hundred hotel options. This wide selection allows users to compare various prices to find the most suitable vehicle for their needs and the idle hotel stay.\n\n'
-                  'Customer Support: WanderHub understands the importance of customer support. They have a dedicated customer service team ready to assist users with any queries or issues they may encounter during the booking process or their travel journey.\n\n'
-                  'Travel Packages: WanderHub provides users with the option to book not only tickets but also complete travel packages. This can include accommodation, transportation, and activities, making it a one-stop shop for travel planning.\n\n'
-                  'Local Expertise: Being a Bangladeshi travel tech company, WanderHub possesses local expertise and insights that can be invaluable for travellers exploring Bangladesh. They can provide tips and recommendations for unique experiences and hidden gems in the country.\n\n'
-                  'In summary, WanderHub stands out as Bangladesh\'s top travel tech company due to its user-friendly platform, extensive flight options, competitive pricing, security measures, and dedication to customer support. Travelers can rely on WanderHub for a hassle-free and enjoyable booking experience.',
-              style: TextStyle(fontSize: 16,
-                  fontFamily: 'Dancing Script'),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -416,74 +414,6 @@ class OthersPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('WanderHub', style: TextStyle(fontSize: 30.0, color: Colors.black.withOpacity(0.8),
-            fontFamily: 'Pacifico-Regular',
-        ),
-        ),
-        backgroundColor: Colors.lightBlueAccent,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.login),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Image.network(
-                'https://images.unsplash.com/photo-1498522437123-3a7624402acb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                height: 250,
-                width: 500,
-                fit: BoxFit.cover,
-              ),
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: Text(
-                  'Welcome to WanderHub - Your Ultimate Travel Companion',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontFamily: 'Pacifico-Regular',
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Explore Bangladesh',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(height: 10),
-          Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                buildContainer(context, 'https://www.shutterstock.com/image-photo/beauty-saint-martin-island-coxs-600nw-2308207335.jpg', 'Cox Bazar', DestinationPage1()),
-                buildContainer(context, 'https://www.shutterstock.com/image-photo/rangamati-located-chittagong-division-bordered-600nw-2271327159.jpg', 'Rangamati', DestinationPage2()),
-                buildContainer(context, 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/06/e2/71/sangu-river.jpg?w=500&h=400&s=1', 'Bandarban', DestinationPage3()),
-                buildContainer(context, 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Jaflong_Sylhet.jpg', 'Sylhet', DestinationPage4()),
-                buildContainer(context, 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sajek_Valley_Rangamati_2.jpg/150px-Sajek_Valley_Rangamati_2.jpg', 'Sajek', DestinationPage5()),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -817,7 +747,7 @@ class DestinationPage4 extends StatelessWidget {
             SizedBox(height: 20),
             buildAttraction4('1.Jaflong',
                 'Jaflong is known for its breathtaking views and the Dawki River, providing a tranquil setting for visitors.',
-                'https://www.shutterstock.com/image-photo/jaflong-hill-station-tourist-destination-260nw-2285029863.jpg'),
+                'https://images.unsplash.com/photo-1591267770966-2938561e2608?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
             buildAttraction4('2.Ratargul Swamp Forest',
                 'Visitors can explore the serene surroundings by boat, enjoying the tranquility and spotting various species of flora and fauna.',
                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-JfM29IUGYamyBP7E2DfX7HFU1YTqLfPTug&usqp=CAU'),
@@ -928,7 +858,7 @@ class DestinationPage5 extends StatelessWidget {
                 'https://www.localguidesconnect.com/t5/image/serverpage/image-id/275429i7626C60BF788D8C0/image-size/large?v=v2&px=999'),
             buildAttraction5('3.Niladri Lake',
                 'Niladri Lake attracts many nature-lovers who enjoy the beauty of its hilly surroundings and blue water.It’s like losing in a blue kingdom.It seems, the place filled with the heavenly beauty.',
-                'https://i.pinimg.com/736x/7c/00/0a/7c000a6924cd645a91a0e9a8de26494b.jpg'),
+                'https://images.unsplash.com/photo-1695277501054-4270292dda00?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmlsYWRyaXxlbnwwfHwwfHx8MA%3D%3D'),
             buildAttraction5('4.Jadukata Bridge',
                 'It\'s a great place to take a leisurely stroll while enjoying the scenic beauty of the Jadukata river ',
                 'https://photos.wikimapia.org/p/00/02/77/96/88_big.jpg'),
