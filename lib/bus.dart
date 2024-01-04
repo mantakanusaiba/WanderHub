@@ -55,7 +55,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
               items: destinations.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Text(value,
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                 );
               }).toList(),
             ),
@@ -71,7 +72,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
               items: destination2.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Text(value,
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                 );
               }).toList(),
             ),
@@ -93,7 +95,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
                         });
                       }
                     },
-                    child: Text('Date of Journey'),
+                    child: Text('Date of Journey',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                   ),
                 ),
                 SizedBox(width: 16),
@@ -112,7 +115,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
                         });
                       }
                     },
-                    child: Text('Date of Return'),
+                    child: Text('Date of Return',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                   ),
                 ),
               ],
@@ -137,7 +141,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 children: [
                   Icon(Icons.search),
                   SizedBox(width: 8),
-                  Text('Search Bus'),
+                  Text('Search Bus',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                 ],
               ),
             ),
@@ -201,10 +206,14 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('From: ${widget.from}'),
-            Text('To: ${widget.to}'),
-            Text('Date of Journey: ${widget.dateOfJourney?.toLocal()}'),
-            Text('Date of Return: ${widget.dateOfReturn?.toLocal()}'),
+            Text('From: ${widget.from}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+            Text('To: ${widget.to}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+            Text('Date of Journey: ${widget.dateOfJourney?.toLocal()}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+            Text('Date of Return: ${widget.dateOfReturn?.toLocal()}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
@@ -215,6 +224,7 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                       title: Text(busList[index].name),
                       subtitle: Text(
                         'Available Seats: ${busList[index].availableSeats}, Ticket Price: \$${busList[index].ticketPrice}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')
                       ),
                       trailing: ElevatedButton(
                         onPressed: () {
@@ -224,7 +234,8 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
 
                           _showSeatSelectionDialog(context);
                         },
-                        child: Text('Book Now'),
+                        child: Text('Book Now',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                       ),
                     ),
                   );
@@ -244,15 +255,18 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Seat Selection - ${selectedBus?.name ?? ""}'),
+          title: Text('Seat Selection - ${selectedBus?.name ?? ""}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Available Seats: ${selectedBus?.availableSeats ?? 0}'),
+                  Text('Available Seats: ${selectedBus?.availableSeats ?? 0}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                   SizedBox(height: 16),
-                  Text('Selected Seats: ${selectedSeats.join(', ')}'),
+                  Text('Selected Seats: ${selectedSeats.join(', ')}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                   SizedBox(height: 16),
                   Wrap(
                     spacing: 8.0,
@@ -273,7 +287,8 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                         style: ElevatedButton.styleFrom(
                           primary: isSelected ? Colors.blueAccent : Colors.white38,
                         ),
-                        child: Text(seat),
+                        child: Text(seat,
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                       );
                     }).toList(),
                   ),
@@ -285,14 +300,16 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel'),
+                        child: Text('Cancel',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                       ),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                           _showConfirmationDialog(context);
                         },
-                        child: Text('Book Now'),
+                        child: Text('Book Now',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
                       ),
                     ],
                   ),
@@ -315,9 +332,12 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Bus: ${selectedBus?.name ?? ""}'),
-              Text('Selected Seats: ${selectedSeats.join(', ')}'),
-              Text('Total Price: \$${(selectedBus?.ticketPrice ?? 0) * selectedSeats.length}'),
+              Text('Bus: ${selectedBus?.name ?? ""}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+              Text('Selected Seats: ${selectedSeats.join(', ')}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+              Text('Total Price: \$${(selectedBus?.ticketPrice ?? 0) * selectedSeats.length}',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
             ],
           ),
           actions: [
@@ -325,7 +345,8 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: Text('OK',
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
             ),
           ],
         );
@@ -355,7 +376,8 @@ class IconWithText extends StatelessWidget {
             onPressed: onPressed,
           ),
           SizedBox(height: 8),
-          Text(text),
+          Text(text,
+          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
         ],
       ),
     );
