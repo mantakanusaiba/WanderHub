@@ -9,13 +9,18 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
-
 class _HomeState extends State<Home> {
+
+  void _handleHomeScreenButtonPress(BuildContext context) {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("This is Home Page"),
+        title: Text("User Profile"),
+        automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<CustomUser>(
           stream: DatabaseService().getUserByUserID(widget.uid),
@@ -25,32 +30,42 @@ class _HomeState extends State<Home> {
               return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Name: ", style: TextStyle(fontSize: 30),),
+                    Text("Name: ", style: TextStyle(fontSize: 25),),
                     Text("${customUser?.name} ", style: TextStyle(fontSize: 20),),
 
                     SizedBox(height: 20,),
-                    Text("Email: ", style: TextStyle(fontSize: 30),),
+                    Text("Email: ", style: TextStyle(fontSize: 25),),
                     Text("${customUser?.email} ", style: TextStyle(fontSize: 20),),
 
                     SizedBox(height: 20,),
-                    Text("User ID: ", style: TextStyle(fontSize: 30),),
+                    Text("ID: ", style: TextStyle(fontSize: 25),),
                     Text("${customUser?.uid} ", style: TextStyle(fontSize: 20),),
+
+                    SizedBox(height: 20,),
+                    Text("Role: ", style: TextStyle(fontSize: 25),),
+                    Text("${customUser?.role} ", style: TextStyle(fontSize: 20),),
 
                     SizedBox(height: 40,),
                     ElevatedButton(
-                        onPressed: () async{
+                      onPressed: () {
+                        _handleHomeScreenButtonPress(context);
+                      },
+                      child: Text("Return Home"),
+                      /* onPressed: () async{
                           await DatabaseService().logoutUser();
                         },
                         child: Text("Log Out"))
+                        */
+                    )
                   ],
                 ),
               );
             } else {
               return Text("Data Not Found");
             }
-          }),
+          }
+      ),
     );
   }
 }

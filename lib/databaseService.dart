@@ -9,31 +9,31 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
 
   Future createUserDoc(
-      String uid, String name, String email) async {
+      String uid, String name, String email , String role) async {
     final docUser = _userCollection.doc(uid);
-    final CustomUser customUser = CustomUser(uid, name, email);
+    final CustomUser customUser = CustomUser(uid, name, email, role);
 
     final jsonUser = customUser.toJson();
     return await docUser.set(jsonUser);
   }
 
   Future registerUser(
-      String name, String email, String password) async {
+      String name, String email, String password, String selectedRole) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User? user = userCredential.user;
 
-      await createUserDoc(user!.uid, name, email);
-      return CustomUser(user.uid, name, email);
+      await createUserDoc(user!.uid, name, email, selectedRole);
+      return CustomUser(user.uid, name, email , selectedRole);
     } catch (message) {
-      print("Regsiter Error message: ${message.toString()}");
+      print("Register Error message: ${message.toString()}");
       return message;
     }
   }
 
 
   CustomUser userObjectFromSnapshot(DocumentSnapshot snapshot) {
-    return CustomUser(snapshot.id, snapshot.get('name'), snapshot.get('email'),
+    return CustomUser(snapshot.id, snapshot.get('name'),  snapshot.get('email'), snapshot.get('role')
         );
   }
 

@@ -12,10 +12,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LogInState extends State<LoginPage> {
-
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   final _formKeyLogin = GlobalKey<FormState>();
+  String? selectedRole;
   bool loadingVisible = false;
 
   @override
@@ -38,7 +38,7 @@ class _LogInState extends State<LoginPage> {
                 decoration: InputDecoration(hintText: "Email"),
                 validator: (value) {
                   if (value!.trim().isEmpty) {
-                    return 'Enter your Email !';
+                    return 'Enter your Email :';
                   } else
                     return null;
                 },
@@ -47,15 +47,15 @@ class _LogInState extends State<LoginPage> {
               SizedBox(
                 height: 30.0,
               ),
-
               TextFormField(
                 controller: passwordController,
-                decoration: InputDecoration(hintText: "Password"),
+                decoration: InputDecoration(
+                    hintText: "Password"),
                 obscureText: true,
-                obscuringCharacter: '#',
+                obscuringCharacter: '*',
                 validator: (value) {
                   if (value!.trim().isEmpty) {
-                    return 'Enter Password !';
+                    return 'Enter Password :';
                   } else
                     return null;
                 },
@@ -64,31 +64,58 @@ class _LogInState extends State<LoginPage> {
               SizedBox(
                 height: 30.0,
               ),
-
+             /* DropdownButtonFormField<String>(
+                value: selectedRole,
+                onChanged: (value) {
+                  setState(() {
+                    selectedRole = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Select Role',
+                ),
+                items: ['User', 'Owner-Hotel', 'Owner-Bus', 'Owner-Flight'].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Select your role';
+                  } else {
+                    return null;
+                  }
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
+              SizedBox(
+                height: 30.0,
+              ),  */
               // Login Button
               ElevatedButton(
-                  onPressed: () async {
-                    if (_formKeyLogin.currentState!.validate()) {
+                onPressed: () async {
+                  if (_formKeyLogin.currentState!.validate()) {
+                    setState(() {
+                      loadingVisible = true;
+                    });
+                    dynamic result = await DatabaseService().loginUser(emailController.text, passwordController.text);
+
+                    if (result is! UserCredential) {
                       setState(() {
-                        loadingVisible = true;
+                        loadingVisible = false;
                       });
-                      dynamic result = await DatabaseService().loginUser(emailController.text, passwordController.text);
-
-                      if (result is! UserCredential){
-                        setState(() {
-                          loadingVisible = false;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                 content: Text("Login falied, try again !")
-                            )
-                        );
-                      }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text("Login failed, try again !"),
+                        ),
+                      );
                     }
-                  },
-                  child: Text("Login")),
-
+                  }
+                },
+                child: Text("Login"),
+              ),
               SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -96,18 +123,19 @@ class _LogInState extends State<LoginPage> {
                   Text("No Account?"),
                   SizedBox(width: 10,),
                   GestureDetector(
-                      onTap: () {
-                        widget.togglePage();
-                      },
-                      child: Text("Register",
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue
-                        ),)
+                    onTap: () {
+                      widget.togglePage();
+                    },
+                    child: Text(
+                      "Register",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                      ),
+                    ),
                   ),
                 ],
               ),
-
               SizedBox(height: 20,),
               Visibility(
                 visible: loadingVisible,
