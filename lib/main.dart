@@ -9,7 +9,6 @@ import 'hotel_page.dart';
 import 'bus.dart';
 import 'flight.dart';
 import 'others_page.dart';
-import 'home.dart';
 import 'business.dart';
 
 void main() async{
@@ -64,7 +63,7 @@ class HomeScreen extends StatelessWidget {
   void _handleBusButtonPress(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BusPage()),
+      MaterialPageRoute(builder: (context) => BusBookingPage()),
     );
   }
 
@@ -143,11 +142,10 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.login),
             onPressed: () {
-              String userId = "someUserId";
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home(userId)),
-              );
+              //Navigator.push(
+                //  context,
+                  //MaterialPageRoute(builder: (context) => ()),
+            //  );
             },
           ),
         ],
@@ -165,39 +163,65 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
+                    fontFamily: 'Pacifico-Regular',
                 ),
               ),
             ),
             ListTile(
               leading: Icon(Icons.person),
-              title: Text('Log In'),
+              title: Text('Log In',
+              style: TextStyle(
+              fontFamily: 'Pacifico-Regular',
+               ),),
               onTap: () {
                 _handleLoginButtonPress(context);
               },
             ),
             ListTile(
+              leading: Icon(Icons.chat),
+              title: Text('Live Chat',
+                style: TextStyle(
+                  fontFamily: 'Pacifico-Regular',
+                ),),
+              onTap: () {
+              //  _handleHomeButtonPress(context);
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.business_center_outlined),
-              title: Text('For Business'),
+              title: Text('For Business',
+                style: TextStyle(
+                  fontFamily: 'Pacifico-Regular',
+                ),),
               onTap: () {
                 _handleBusinessButtonPress(context);
               },
             ),
             ListTile(
               leading: Icon(Icons.question_mark),
-              title: Text('Others'),
+              title: Text('Others',
+                style: TextStyle(
+                  fontFamily: 'Pacifico-Regular',
+                ),),
               onTap: () {
                 _handleOthersButtonPress(context);
               },
             ),
             ListTile(
               leading: Icon(Icons.logout),
-              title: Text('Log Out'),
+              title: Text('Log Out',
+                style: TextStyle(
+                  fontFamily: 'Pacifico-Regular',
+                ),),
               onTap: () async {
                 await DatabaseService().logoutUser();
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('You are logged out.'),
+                    content: Text('You are logged out.',
+                      style: TextStyle(
+                        fontFamily: 'Pacifico-Regular',
+                      ),),
                     duration: Duration(seconds: 2),
                   ),
                 );
@@ -241,6 +265,7 @@ class HomeScreen extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
+            color: Colors.white,
             elevation: 8.0,
             child: Padding(
               padding: const EdgeInsets.all(16.0),

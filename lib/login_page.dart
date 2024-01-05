@@ -22,7 +22,11 @@ class _LogInState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to Login Page !'),
+        title: Text('Welcome to Login Page !',
+          style: TextStyle(
+            fontFamily: 'Pacifico-Regular',
+          ),),
+        backgroundColor:Colors.lightBlueAccent,
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -35,7 +39,8 @@ class _LogInState extends State<LoginPage> {
               ),
               TextFormField(
                 controller: emailController,
-                decoration: InputDecoration(hintText: "Email"),
+                decoration: InputDecoration(hintText: "Email",
+                ),
                 validator: (value) {
                   if (value!.trim().isEmpty) {
                     return 'Enter your Email :';
@@ -108,13 +113,20 @@ class _LogInState extends State<LoginPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
-                          content: Text("Login failed, try again !"),
+                          content: Text("Login failed, try again !",
+                            style: TextStyle(
+                              fontFamily: 'Pacifico-Regular',
+                            ),),
                         ),
                       );
                     }
                   }
                 },
-                child: Text("Login"),
+                child: Text("Login",
+                  style: TextStyle(
+                    fontFamily: 'Pacifico-Regular',
+                    color:Colors.blueAccent
+                  ),),
               ),
               SizedBox(height: 20,),
               Row(

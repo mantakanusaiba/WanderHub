@@ -19,7 +19,10 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User Profile"),
+        title: Text("User Profile",
+          style: TextStyle(
+            fontFamily: 'Pacifico-Regular',
+          ),),
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<CustomUser>(
@@ -31,27 +34,36 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
-                    Text("Name: ", style: TextStyle(fontSize: 25),),
-                    Text("${customUser?.name} ", style: TextStyle(fontSize: 20),),
+                    Text("Name: ", style: TextStyle(fontSize: 25,
+                        fontFamily: 'Pacifico-Regular',
+                      ),),
+                    Text("${customUser?.name} ", style: TextStyle(fontSize: 20,
+                      fontFamily: 'Pacifico-Regular',),),
 
                     SizedBox(height: 20,),
                     Text("Email: ", style: TextStyle(fontSize: 25),),
-                    Text("${customUser?.email} ", style: TextStyle(fontSize: 20),),
+                    Text("${customUser?.email} ", style: TextStyle(fontSize: 20,
+                      fontFamily: 'Pacifico-Regular',),),
 
                     SizedBox(height: 20,),
                     Text("ID: ", style: TextStyle(fontSize: 25),),
-                    Text("${customUser?.uid} ", style: TextStyle(fontSize: 20),),
+                    Text("${customUser?.uid} ", style: TextStyle(fontSize: 20,
+                      fontFamily: 'Pacifico-Regular',),),
 
                     SizedBox(height: 20,),
                     Text("Role: ", style: TextStyle(fontSize: 25),),
-                    Text("${customUser?.role} ", style: TextStyle(fontSize: 20),),
+                    Text("${customUser?.role} ", style: TextStyle(fontSize: 20,
+                      fontFamily: 'Pacifico-Regular',),),
 
                     SizedBox(height: 40,),
                     ElevatedButton(
                       onPressed: () {
                         _handleHomeScreenButtonPress(context);
                       },
-                      child: Text("Return Home"),
+                      child: Text("Return Home",
+                        style: TextStyle(
+                        fontFamily: 'Pacifico-Regular',),
+                      )
                       /* onPressed: () async{
                           await DatabaseService().logoutUser();
                         },
@@ -62,7 +74,10 @@ class _HomeState extends State<Home> {
                 ),
               );
             } else {
-              return Text("Data Not Found");
+              return Text("Data Not Found",
+                style: TextStyle(fontSize: 20,
+                  fontFamily: 'Pacifico-Regular'),
+              );
             }
           }
       ),

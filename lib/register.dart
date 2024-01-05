@@ -24,7 +24,11 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register Now !'),
+        title: Text('Register Now !',
+          style: TextStyle(
+          fontFamily: 'Pacifico-Regular',
+        ),),
+        backgroundColor:Colors.lightBlueAccent,
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
@@ -140,13 +144,19 @@ class _RegisterState extends State<Register> {
                     }
                   }
                 },
-                child: Text("Register"),
+                child: Text("Register",
+                  style: TextStyle(
+                    fontFamily: 'Pacifico-Regular',
+                  ),),
               ),
               SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already Have an Account?"),
+                  Text("Already Have an Account?",
+                    style: TextStyle(
+                      fontFamily: 'Pacifico-Regular',
+                    ),),
                   SizedBox(width: 10,),
                   GestureDetector(
                     onTap: () {
@@ -157,6 +167,7 @@ class _RegisterState extends State<Register> {
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         color: Colors.lightBlueAccent,
+                          fontFamily: 'Pacifico-Regular',
                       ),
                     ),
                   ),
