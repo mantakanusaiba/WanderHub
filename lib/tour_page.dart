@@ -12,6 +12,7 @@ class TourPage extends StatelessWidget {
             fontFamily: 'Pacifico-Regular',
           ),
         ),
+        backgroundColor: Colors.cyan,
       ),
       body: Center(
         child: SingleChildScrollView(

@@ -11,6 +11,7 @@ import 'flight.dart';
 import 'others_page.dart';
 import 'business.dart';
 
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -32,12 +33,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(),
+      home: HomeScreen(p: false),
     );
   }
 }
 
+
 class HomeScreen extends StatelessWidget {
+
+   bool p=false;
+  HomeScreen({required this.p});
+
+
   void _handleLoginButtonPress(BuildContext context) {
     Navigator.push(
       context,
@@ -137,10 +144,10 @@ class HomeScreen extends StatelessWidget {
             fontFamily: 'Pacifico-Regular',
           ),
         ),
-        backgroundColor: Colors.lightBlueAccent,
-        actions: [
+        backgroundColor: Colors.cyan,
+       /* actions: [
           IconButton(
-            icon: Icon(Icons.login),
+            icon: Icon(Icons.exit_to_app_outlined),
             onPressed: () {
               //Navigator.push(
                 //  context,
@@ -148,7 +155,7 @@ class HomeScreen extends StatelessWidget {
             //  );
             },
           ),
-        ],
+        ],*/
       ),
       drawer: Drawer(
         child: ListView(
@@ -156,111 +163,108 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.lightBlueAccent,
+                color: Colors.cyan[300],
               ),
               child: Text(
                 'WanderHub',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 24,
                     fontFamily: 'Pacifico-Regular',
                 ),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Log In',
-              style: TextStyle(
-              fontFamily: 'Pacifico-Regular',
-               ),),
+
+
+            buildUserProfileTile(
+              isLoggedIn: p=true,
               onTap: () {
                 _handleLoginButtonPress(context);
               },
             ),
+
             ListTile(
-              leading: Icon(Icons.chat),
-              title: Text('Live Chat',
+              leading: Icon(Icons.business_center_outlined,
+                  color: Colors.cyan[800]),
+              title: Text(
+                'For Business',
                 style: TextStyle(
                   fontFamily: 'Pacifico-Regular',
-                ),),
-              onTap: () {
-              //  _handleHomeButtonPress(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.business_center_outlined),
-              title: Text('For Business',
-                style: TextStyle(
-                  fontFamily: 'Pacifico-Regular',
-                ),),
+                ),
+              ),
               onTap: () {
                 _handleBusinessButtonPress(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.question_mark),
-              title: Text('Others',
+              leading: Icon(Icons.question_mark,
+                  color: Colors.cyan[800]),
+              title: Text(
+                'Others',
                 style: TextStyle(
                   fontFamily: 'Pacifico-Regular',
-                ),),
+                ),
+              ),
               onTap: () {
                 _handleOthersButtonPress(context);
               },
             ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Log Out',
-                style: TextStyle(
-                  fontFamily: 'Pacifico-Regular',
-                ),),
+
+            if(p==true)
+            buildLogoutTile(
               onTap: () async {
                 await DatabaseService().logoutUser();
+                p= false;
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('You are logged out.',
+                    content: Text(
+                      'You are logged out.',
                       style: TextStyle(
                         fontFamily: 'Pacifico-Regular',
-                      ),),
+                      ),
+                    ),
                     duration: Duration(seconds: 2),
                   ),
                 );
               },
-            ),
+            )
           ],
         ),
       ),
       body: Column(
-        children: [
-          Stack(
-            children: [
-              Image.network(
-                'https://images.unsplash.com/photo-1498522437123-3a7624402acb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                height: 250,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-              Positioned(
-                bottom: 80,
-                right: 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Welcome to WanderHub!\nYour Ultimate Travel Companion',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontFamily: 'Pacifico-Regular',
-                      ),
-                    ),
-                  ],
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Stack(
+              children: [
+                Image.network(
+                  'https://images.unsplash.com/photo-1498522437123-3a7624402acb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  height: 250,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
+                Positioned(
+                  bottom: 80,
+                  right: 20,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Welcome to WanderHub!\nYour Ultimate Travel Companion',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontFamily: 'Pacifico-Regular',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
           Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -409,6 +413,44 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
+Widget buildUserProfileTile({
+  required VoidCallback onTap,
+  required bool isLoggedIn,
+}) {
+  return ListTile(
+    leading: Icon(Icons.person,
+    color: Colors.cyan[800]),
+    title: Text(
+      isLoggedIn ? 'View Profile' : 'Log In',
+      style: TextStyle(
+        fontFamily: 'Pacifico-Regular',
+      ),
+    ),
+    onTap: onTap,
+  );
+}
+ Widget buildLogoutTile({
+      required VoidCallback onTap,
+       }) {
+      return ListTile(
+       leading: Icon(Icons.logout,
+           color: Colors.cyan[800]),
+       title: Text(
+      'Log Out',
+      style: TextStyle(
+        fontFamily: 'Pacifico-Regular',
+      ),
+    ),
+    onTap: onTap,
+  );
+}
+
+
+
+
+
 
 
   Widget buildContainer(BuildContext context, String imageUrl, String title, Widget destinationPage) {

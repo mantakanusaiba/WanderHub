@@ -13,7 +13,7 @@ class BusinessPage extends StatelessWidget {
             fontFamily: 'Pacifico-Regular',
           ),
         ),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.cyan,
         actions: [
           IconButton(
             icon: Icon(Icons.star),
@@ -49,7 +49,7 @@ class BusinessPage extends StatelessWidget {
               fontFamily: 'Pacifico-Regular',
             ),
             ),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
@@ -62,16 +62,19 @@ class BusinessPage extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.hotel),
+                      Icon(Icons.hotel,
+                        color:Colors.cyan[800],
+                      ),
                       SizedBox(width: 8),
                       Text('Hotel',
                         style: TextStyle(
                           fontFamily: 'Pacifico-Regular',
+                          color:Colors.cyan[800],
                         ),),
                     ],
                   ),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 30),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -82,11 +85,37 @@ class BusinessPage extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.airplane_ticket),
+                      Icon(Icons.airplane_ticket,
+                      color:Colors.cyan[800],
+                      ),
                       SizedBox(width: 8),
-                      Text('Ticket',
+                      Text('Flight',
                         style: TextStyle(
                           fontFamily: 'Pacifico-Regular',
+                          color:Colors.cyan[800],
+                        ),),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 30),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AuthListener()),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.directions_bus_filled_rounded,
+                        color:Colors.cyan[800],
+                      ),
+                      SizedBox(width: 8),
+                      Text('Bus',
+                        style: TextStyle(
+                          fontFamily: 'Pacifico-Regular',
+                          color:Colors.cyan[800],
                         ),),
                     ],
                   ),

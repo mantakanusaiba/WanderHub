@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wanderhub/main.dart';
 import 'databaseService.dart';
+import 'dart:async';
 
 class LoginPage extends StatefulWidget {
   final togglePage;
@@ -15,18 +17,19 @@ class _LogInState extends State<LoginPage> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   final _formKeyLogin = GlobalKey<FormState>();
-  String? selectedRole;
   bool loadingVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to Login Page !',
+        title: Text(
+          'Welcome to Login Page !',
           style: TextStyle(
             fontFamily: 'Pacifico-Regular',
-          ),),
-        backgroundColor:Colors.lightBlueAccent,
+          ),
+        ),
+        backgroundColor: Colors.cyan,
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -39,7 +42,8 @@ class _LogInState extends State<LoginPage> {
               ),
               TextFormField(
                 controller: emailController,
-                decoration: InputDecoration(hintText: "Email",
+                decoration: InputDecoration(
+                  hintText: "Email",
                 ),
                 validator: (value) {
                   if (value!.trim().isEmpty) {
@@ -54,8 +58,7 @@ class _LogInState extends State<LoginPage> {
               ),
               TextFormField(
                 controller: passwordController,
-                decoration: InputDecoration(
-                    hintText: "Password"),
+                decoration: InputDecoration(hintText: "Password"),
                 obscureText: true,
                 obscuringCharacter: '*',
                 validator: (value) {
@@ -69,71 +72,78 @@ class _LogInState extends State<LoginPage> {
               SizedBox(
                 height: 30.0,
               ),
-             /* DropdownButtonFormField<String>(
-                value: selectedRole,
-                onChanged: (value) {
-                  setState(() {
-                    selectedRole = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: 'Select Role',
-                ),
-                items: ['User', 'Owner-Hotel', 'Owner-Bus', 'Owner-Flight'].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Select your role';
-                  } else {
-                    return null;
-                  }
-                },
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-              ),
-              SizedBox(
-                height: 30.0,
-              ),  */
-              // Login Button
               ElevatedButton(
                 onPressed: () async {
                   if (_formKeyLogin.currentState!.validate()) {
                     setState(() {
                       loadingVisible = true;
                     });
-                    dynamic result = await DatabaseService().loginUser(emailController.text, passwordController.text);
-
-                    if (result is! UserCredential) {
+                    dynamic result = await DatabaseService().loginUser(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                    if (result is UserCredential) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(p: true),
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            "Login successful!",
+                            style: TextStyle(
+                              fontFamily: 'Pacifico-Regular',
+                            ),
+                          ),
+                        ),
+                      );
+                      Timer(Duration(seconds: 2), () {
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      });
+                    } else {
                       setState(() {
                         loadingVisible = false;
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
-                          content: Text("Login failed, try again !",
+                          content: Text(
+                            "Login failed, try again!",
                             style: TextStyle(
                               fontFamily: 'Pacifico-Regular',
-                            ),),
+                            ),
+                          ),
                         ),
                       );
                     }
                   }
                 },
-                child: Text("Login",
+                child: Text(
+                  "Login",
                   style: TextStyle(
                     fontFamily: 'Pacifico-Regular',
-                    color:Colors.blueAccent
-                  ),),
+                    color: Colors.cyan[800],
+                  ),
+                ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("No Account?"),
-                  SizedBox(width: 10,),
+                  Text(
+                    "No Account?",
+                    style: TextStyle(
+                      fontFamily: 'Pacifico-Regular',
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   GestureDetector(
                     onTap: () {
                       widget.togglePage();
@@ -142,17 +152,20 @@ class _LogInState extends State<LoginPage> {
                       "Register",
                       style: TextStyle(
                         decoration: TextDecoration.underline,
-                        color: Colors.blue,
+                        color: Colors.cyan[800],
+                        fontFamily: 'Pacifico-Regular',
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Visibility(
                 visible: loadingVisible,
                 child: SpinKitWave(
-                  color: Colors.blue,
+                  color: Colors.cyan[600],
                 ),
               ),
             ],
