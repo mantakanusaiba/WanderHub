@@ -9,6 +9,7 @@ class OthersPage extends StatelessWidget {
           'Others',
           style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular'),
         ),
+        backgroundColor: Colors.cyan,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
