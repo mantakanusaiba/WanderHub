@@ -3,6 +3,30 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'user.dart';
+class DatabaseService1{
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> addBooking({
+    required String from,
+    required String to,
+    required DateTime dateOfJourney,
+    required DateTime dateOfReturn,
+    required String busName,
+    required List<String> selectedSeats,
+    required double totalPrice,
+  }) async {
+    await _firestore.collection('bookings').add({
+      'from': from,
+      'to': to,
+      'dateOfJourney': dateOfJourney,
+      'dateOfReturn': dateOfReturn,
+      'busName': busName,
+      'selectedSeats': selectedSeats,
+      'totalPrice': totalPrice,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
+}
 
 class DatabaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

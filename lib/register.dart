@@ -6,6 +6,7 @@ import 'package:wanderhub/main.dart';
 import 'user.dart';
 import 'databaseService.dart';
 import 'dart:async';
+import 'global_variables.dart';
 
 
 class Register extends StatefulWidget {
@@ -28,6 +29,7 @@ class _RegisterState extends State<Register> {
   final _formKeyRegister = GlobalKey<FormState>();
   DatabaseService _databaseService = DatabaseService();
   File? profileImage;
+
 
   @override
   Widget build(BuildContext context) {
@@ -210,10 +212,11 @@ class _RegisterState extends State<Register> {
                     );
 
                     if (result is CustomUser) {
+                      login=true;
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeScreen(p: true),
+                          builder: (context) => HomeScreen(),
                         ),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
