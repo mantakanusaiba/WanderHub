@@ -57,7 +57,7 @@ class _RegisterState extends State<Register> {
               InkWell(
                 onTap: () async {
                   final pickedFile =
-                  await ImagePicker().getImage(source: ImageSource.gallery);
+                  await ImagePicker().getImage(source: ImageSource.camera);
                   if (pickedFile != null) {
                     setState(() {
                       profileImage = File(pickedFile.path);

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wanderhub/chat_screen.dart';
 import 'package:wanderhub/databaseService.dart';
 import 'package:wanderhub/home.dart';
 import 'package:wanderhub/login_page.dart';
@@ -69,6 +70,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+   /* String get currentUserId {
+    final user = FirebaseAuth.instance.currentUser;
+    return user!.email!;
+  }
+
+    */
 
   void _handleLoginButtonPress(BuildContext context) {
     Navigator.push(
@@ -404,15 +411,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatScreen()),
-                );
-              },
-              child: Icon(Icons.chat),
-            )
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChatScreen()),
+            );
+          },
+          child: Icon(Icons.chat,
+          color:Colors.white,
+          size: 30,),
+            backgroundColor:Colors.cyan,
+        )
     );
   }
 }

@@ -27,19 +27,51 @@ class _LogInState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Welcome to Login Page!',
+          '',
           style: TextStyle(
             fontFamily: 'Pacifico-Regular',
           ),
         ),
         backgroundColor: Colors.cyan,
       ),
-      body: Container(
+    body: SingleChildScrollView(
+    child: Container(
         padding: EdgeInsets.all(20.0),
         child: Form(
           key: _formKeyLogin,
           child: Column(
             children: [
+              SizedBox(
+                height: 30.0,
+              ),
+               Text(
+              'Welcome to WanderHub!',
+              style: TextStyle(
+              fontFamily: 'Pacifico-Regular',
+                fontSize: 25,
+              ),
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Text(
+                'Log In',
+                style: TextStyle(
+                  fontFamily: 'Pacifico-Regular',
+                  fontSize: 20,
+                  color:Colors.cyan[800],
+                ),
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Text(
+                'Login to get access to your account.',
+                style: TextStyle(
+                  fontFamily: 'Pacifico-Regular',
+                  fontSize: 15,
+                ),
+              ),
               SizedBox(
                 height: 30.0,
               ),
@@ -180,6 +212,7 @@ class _LogInState extends State<LoginPage> {
           ),
         ),
       ),
+    ),
     );
   }
 }
