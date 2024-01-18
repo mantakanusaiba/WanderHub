@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'databaseService.dart';
 
 class BusPage extends StatelessWidget {
   @override
@@ -9,7 +10,7 @@ class BusPage extends StatelessWidget {
           style: TextStyle(fontSize: 24,
               fontFamily: 'Pacifico-Regular'),
         ),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.cyan,
       ),
     );
   }
@@ -36,7 +37,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
           'Bus Booking',
           style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular'),
         ),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.cyan,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

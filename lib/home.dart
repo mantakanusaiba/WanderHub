@@ -1,3 +1,4 @@
+import 'package:wanderhub/main.dart';
 import 'user.dart';
 import 'databaseService.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   void _handleHomeScreenButtonPress(BuildContext context) {
-    Navigator.pop(context);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(),
+        //builder: (context) => const MyApp()
+      ),
+    );
   }
 
   @override
@@ -28,6 +35,14 @@ class _HomeState extends State<Home> {
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.cyan,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () async {
+              await DatabaseService().logoutUser();
+            },
+          ),
+        ],
       ),
       backgroundColor: Colors.cyan[200],
       body: StreamBuilder<CustomUser>(
@@ -124,7 +139,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                SizedBox(height: 70),
+               SizedBox(height: 70),
                 ElevatedButton(
                   onPressed: () {
                     _handleHomeScreenButtonPress(context);
