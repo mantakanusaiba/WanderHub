@@ -45,7 +45,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             DropdownButton<String>(
-              hint: Text('From'),
+              hint: Text('From',style: TextStyle(fontFamily: 'Pacifico-Regular')),
               value: _selectedFrom,
               onChanged: (String? newValue) {
                 setState(() {
@@ -56,13 +56,13 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value,
-                      style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                      style: TextStyle(fontFamily: 'Pacifico-Regular')),
                 );
               }).toList(),
             ),
             SizedBox(height: 16),
             DropdownButton<String>(
-              hint: Text('To'),
+              hint: Text('To',style: TextStyle(fontFamily: 'Pacifico-Regular')),
               value: _selectedTo,
               onChanged: (String? newValue) {
                 setState(() {
@@ -73,7 +73,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value,
-                      style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                      style: TextStyle(fontFamily: 'Pacifico-Regular')),
                 );
               }).toList(),
             ),
@@ -96,7 +96,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                       }
                     },
                     child: Text('Date of Journey',
-                        style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                        style: TextStyle(fontFamily: 'Pacifico-Regular')),
                   ),
                 ),
                 SizedBox(width: 16),
@@ -116,7 +116,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                       }
                     },
                     child: Text('Date of Return',
-                        style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                        style: TextStyle( fontFamily: 'Pacifico-Regular')),
                   ),
                 ),
               ],
@@ -142,7 +142,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                   Icon(Icons.search),
                   SizedBox(width: 8),
                   Text('Search Bus',
-                      style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                      style: TextStyle(fontFamily: 'Pacifico-Regular')),
                 ],
               ),
             ),
@@ -207,13 +207,13 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('From: ${widget.from}',
-                style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                style: TextStyle(fontFamily: 'Pacifico-Regular')),
             Text('To: ${widget.to}',
-                style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                style: TextStyle( fontFamily: 'Pacifico-Regular')),
             Text('Date of Journey: ${widget.dateOfJourney?.toLocal()}',
-                style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                style: TextStyle( fontFamily: 'Pacifico-Regular')),
             Text('Date of Return: ${widget.dateOfReturn?.toLocal()}',
-                style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                style: TextStyle( fontFamily: 'Pacifico-Regular')),
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
@@ -221,10 +221,10 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
-                      title: Text(busList[index].name),
+                      title: Text(busList[index].name,style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       subtitle: Text(
                           'Available Seats: ${busList[index].availableSeats}, Ticket Price: \$${busList[index].ticketPrice}',
-                          style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')
+                          style: TextStyle( fontFamily: 'Pacifico-Regular')
                       ),
                       trailing: ElevatedButton(
                         onPressed: () {
@@ -235,7 +235,7 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                           _showSeatSelectionDialog(context);
                         },
                         child: Text('Book Now',
-                            style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                            style: TextStyle( fontFamily: 'Pacifico-Regular')),
                       ),
                     ),
                   );
@@ -247,26 +247,25 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
       ),
     );
   }
-
-  Future<void> _showSeatSelectionDialog(BuildContext context) async {
+ Future<void> _showSeatSelectionDialog(BuildContext context) async {
+    final currentContext = context;
     List<String> allSeats = List.generate(selectedBus?.availableSeats ?? 0, (index) => (index + 1).toString());
 
     return showDialog<void>(
-      context: context,
+      context: currentContext,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Seat Selection - ${selectedBus?.name ?? ""}',
-              style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+          title: Text('Seat Selection - ${selectedBus?.name ?? ""}', style: TextStyle(fontFamily: 'Pacifico-Regular')),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text('Available Seats: ${selectedBus?.availableSeats ?? 0}',
-                      style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                      style: TextStyle(fontFamily: 'Pacifico-Regular')),
                   SizedBox(height: 16),
                   Text('Selected Seats: ${selectedSeats.join(', ')}',
-                      style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                      style: TextStyle(fontFamily: 'Pacifico-Regular')),
                   SizedBox(height: 16),
                   Wrap(
                     spacing: 8.0,
@@ -287,8 +286,7 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                         style: ElevatedButton.styleFrom(
                           primary: isSelected ? Colors.blueAccent : Colors.white38,
                         ),
-                        child: Text(seat,
-                            style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                        child: Text(seat, style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       );
                     }).toList(),
                   ),
@@ -298,18 +296,16 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(currentContext).pop();
                         },
-                        child: Text('Cancel',
-                            style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                        child: Text('Cancel', style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          _showConfirmationDialog(context);
+                        onPressed: () async {
+                          Navigator.of(currentContext).pop();
+                          await _showConfirmationDialog(currentContext);
                         },
-                        child: Text('Book Now',
-                            style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                        child: Text('Book Now', style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       ),
                     ],
                   ),
@@ -324,29 +320,40 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
 
 
   Future<void> _showConfirmationDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
+    final currentContext = context;
+    DatabaseService1 databaseService = DatabaseService1();
+
+    await databaseService.addBooking(
+      from: widget.from!,
+      to: widget.to!,
+      dateOfJourney: widget.dateOfJourney!,
+      dateOfReturn: widget.dateOfReturn!,
+      busName: selectedBus?.name ?? '',
+      selectedSeats: selectedSeats,
+      totalPrice: (selectedBus?.ticketPrice ?? 0) * selectedSeats.length,
+    );
+
+    showDialog<void>(
+      context: currentContext,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Booking Confirmation'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Bus: ${selectedBus?.name ?? ""}',
-                  style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+              Text('Bus: ${selectedBus?.name ?? ""}', style: TextStyle(fontFamily: 'Pacifico-Regular')),
               Text('Selected Seats: ${selectedSeats.join(', ')}',
-                  style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                  style: TextStyle(fontFamily: 'Pacifico-Regular')),
               Text('Total Price: \$${(selectedBus?.ticketPrice ?? 0) * selectedSeats.length}',
-                  style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+                  style: TextStyle(fontFamily: 'Pacifico-Regular')),
             ],
           ),
           actions: [
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(currentContext).pop();
               },
-              child: Text('OK',
-                  style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
+              child: Text('OK', style: TextStyle(fontFamily: 'Pacifico-Regular')),
             ),
           ],
         );
