@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'authentication.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
+import 'global_variables.dart';
 
 class AuthListener extends StatelessWidget {
   const AuthListener({super.key});
@@ -15,9 +16,11 @@ class AuthListener extends StatelessWidget {
         stream: _auth.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            login=true;
             final result = snapshot.data;
             return Home(result!.uid);
           } else {
+            login=false;
             return Authentication();
           }
         }

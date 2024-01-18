@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wanderhub/main.dart';
 import 'databaseService.dart';
 import 'dart:async';
+import 'user.dart';
+import 'global_variables.dart';
 
 class LoginPage extends StatefulWidget {
   final togglePage;
@@ -19,12 +21,13 @@ class _LogInState extends State<LoginPage> {
   final _formKeyLogin = GlobalKey<FormState>();
   bool loadingVisible = false;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Welcome to Login Page !',
+          'Welcome to Login Page!',
           style: TextStyle(
             fontFamily: 'Pacifico-Regular',
           ),
@@ -82,13 +85,16 @@ class _LogInState extends State<LoginPage> {
                       emailController.text,
                       passwordController.text,
                     );
+
                     if (result is UserCredential) {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeScreen(p: true),
+                          builder: (context) => HomeScreen(),
+                          //builder: (context) => const MyApp()
                         ),
                       );
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
@@ -100,6 +106,7 @@ class _LogInState extends State<LoginPage> {
                           ),
                         ),
                       );
+
                       Timer(Duration(seconds: 2), () {
                         ScaffoldMessenger.of(context).removeCurrentSnackBar();
                       });
@@ -129,6 +136,7 @@ class _LogInState extends State<LoginPage> {
                   ),
                 ),
               ),
+
               SizedBox(
                 height: 20,
               ),

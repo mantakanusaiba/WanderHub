@@ -1,6 +1,7 @@
 import 'user.dart';
 import 'databaseService.dart';
 import 'package:flutter/material.dart';
+import 'authentication.dart';
 
 class Home extends StatefulWidget {
   final String uid;
