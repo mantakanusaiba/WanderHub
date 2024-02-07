@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'user.dart';
+import 'tour.dart';
+
+
 
 class DatabaseService2{
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -16,7 +19,7 @@ class DatabaseService2{
     required List<String> selectedSeats,
     required double totalPrice,
   }) async {
-    await _firestore.collection('bookings').add({
+    await _firestore.collection('book-flight').add({
       'from': from,
       'to': to,
       'dateOfDeparture': dateOfDeparture,
@@ -40,7 +43,7 @@ class DatabaseService1{
     required List<String> selectedSeats,
     required double totalPrice,
   }) async {
-    await _firestore.collection('bookings').add({
+    await _firestore.collection('book-bus').add({
       'from': from,
       'to': to,
       'dateOfJourney': dateOfJourney,
@@ -138,4 +141,30 @@ class DatabaseService {
       print(e.toString());
     }
   }
+
+
+
+
+
+  // map snapshots into list of CustomUser object
+  List<CustomUser> userListFromSnapshot(QuerySnapshot snapshot) {
+    final userList = snapshot.docs.map(
+            (doc) => CustomUser(
+            doc.id,
+            doc.get('name'),
+            doc.get('email'),
+              doc.get('role'),
+            doc.get('profileImageUrl'),
+            )
+    ).toList();
+
+    return userList;
+  }
+
+//   get all users
+  Stream<List<CustomUser>> getAll(){
+    return _userCollection.snapshots().map(userListFromSnapshot);
+  }
+
+
 }

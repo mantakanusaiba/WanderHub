@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wanderhub/databaseService.dart';
 import 'databaseService.dart';
 
-class FlightPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Ticket Booking',
-          style: TextStyle(fontSize: 24,
-              fontFamily: 'Pacifico-Regular'),
-        ),
-         backgroundColor: Colors.cyan,
-      ),
-    );
-  }
-}
 
 class FlightBookingPage extends StatefulWidget {
   @override
@@ -184,8 +171,8 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
   FlightDetails? selectedFlight;
 
   final List<FlightDetails> flightList = [
-    FlightDetails(name: 'Bangladesh Airlines', availableSeats: 50, ticketPrice: 2500.0),
-    FlightDetails(name: 'Novoair', availableSeats: 30, ticketPrice: 3000.0),
+    FlightDetails(name: 'Bangladesh Airlines', availableSeats: 20, ticketPrice: 2500.0),
+    FlightDetails(name: 'Novoair', availableSeats: 20, ticketPrice: 3000.0),
   ];
 
   @override
@@ -257,10 +244,10 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
                 children: [
                   Text('Available Seats: ${selectedFlight?.availableSeats ?? 0}',
                       style: TextStyle(fontFamily: 'Pacifico-Regular')),
-                  SizedBox(height: 16),
+                  SizedBox(height: 15),
                   Text('Selected Seats: ${selectedSeats.join(', ')}',
                       style: TextStyle(fontFamily: 'Pacifico-Regular')),
-                  SizedBox(height: 16),
+                  SizedBox(height: 15),
                   Wrap(
                     spacing: 8.0,
                     runSpacing: 8.0,
@@ -284,7 +271,7 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
                       );
                     }).toList(),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 13),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

@@ -18,32 +18,32 @@ class RoomSelectionPage extends StatelessWidget {
             children: [
               // Card 1 - Selected Hotel
               buildHotelCard({
-                'name': 'Deluxe Room',
-                'price': 150,
+                'name': 'Deluxe',
+                'price': 1500,
                 'image':
                 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/10/b4/05/the-cox-today-limited.jpg?w=300&h=200&s=1',
               }),
 
               // Card 2 - Example Hotel 2
               buildHotelCard({
-                'name': 'Deluxe Twin Room',
-                'price': 150,
+                'name': 'Deluxe Twin',
+                'price': 1500,
                 'image':
                 'https://www.momondo.com/himg/3c/7c/4b/expediav2-713372-d206e5-950457.jpg',
               }),
 
               // Card 3 - Example Hotel 3
               buildHotelCard({
-                'name': 'Superior Double Room',
-                'price': 200,
+                'name': 'Superior',
+                'price': 2000,
                 'image':
                 'https://q-xx.bstatic.com/xdata/images/hotel/max500/243701987.jpg?k=c7c1fe6c4010c987a3564aab5496e60437e107bbd4c20d04345d4651f1c7276c&o=',
               }),
 
               // Card 4 - Example Hotel 4
               buildHotelCard({
-                'name': 'Family Room',
-                'price': 180,
+                'name': 'Family',
+                'price': 1800,
                 'image':
                 'https://www.momondo.com/himg/3c/7c/4b/expediav2-713372-d206e5-950457.jpg',
               }),

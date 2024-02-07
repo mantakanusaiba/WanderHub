@@ -3,24 +3,43 @@ import 'authentication.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'global_variables.dart';
+import 'home2.dart';
 
 class AuthListener extends StatelessWidget {
   const AuthListener({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return StreamBuilder<User?>(
         stream: _auth.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            login=true;
+            login = true;
             final result = snapshot.data;
             return Home(result!.uid);
           } else {
-            login=false;
+            login = false;
+            return Authentication();
+          }
+        }
+    );
+  }
+
+  @override
+  Widget build2(BuildContext context) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    return StreamBuilder<User?>(
+        stream: _auth.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            login = true;
+            final result = snapshot.data;
+            return Home2(result!.uid);
+          } else {
+            login = false;
             return Authentication();
           }
         }
