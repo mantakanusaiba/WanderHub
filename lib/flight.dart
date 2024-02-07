@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:wanderhub/databaseService.dart';
 import 'databaseService.dart';
 
+class FlightPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Ticket Booking',
+          style: TextStyle(fontSize: 24,
+              fontFamily: 'Pacifico-Regular'),
+        ),
+         backgroundColor: Colors.cyan,
+      ),
+    );
+  }
+}
 
 class FlightBookingPage extends StatefulWidget {
   @override
@@ -169,10 +182,11 @@ class FlightSearchResultsPage extends StatefulWidget {
 class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
   List<String> selectedSeats = [];
   FlightDetails? selectedFlight;
+  Map<String, List<String>> bookedSeatsMap = {};
 
   final List<FlightDetails> flightList = [
-    FlightDetails(name: 'Bangladesh Airlines', availableSeats: 20, ticketPrice: 2500.0),
-    FlightDetails(name: 'Novoair', availableSeats: 20, ticketPrice: 3000.0),
+    FlightDetails(
+        name: 'Bangladesh Biman', availableSeats: 20, ticketPrice: 2500.0),
   ];
 
   @override
@@ -190,8 +204,10 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('From: ${widget.from}', style: TextStyle(fontFamily: 'Pacifico-Regular')),
-            Text('To: ${widget.to}', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+            Text('From: ${widget.from}',
+                style: TextStyle(fontFamily: 'Pacifico-Regular')),
+            Text('To: ${widget.to}',
+                style: TextStyle(fontFamily: 'Pacifico-Regular')),
             Text('Date of Departure: ${widget.dateOfDeparture?.toLocal()}',
                 style: TextStyle(fontFamily: 'Pacifico-Regular')),
             Text('Date of Return: ${widget.dateOfReturn?.toLocal()}',
@@ -203,9 +219,12 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
-                      title: Text(flightList[index].name,style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                      title: Text(flightList[index].name,
+                          style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       subtitle: Text(
-                          'Available Seats: ${flightList[index].availableSeats}, Ticket Price: \$${flightList[index].ticketPrice}',
+                          'Available Seats: ${flightList[index]
+                              .availableSeats}, Ticket Price: \$${flightList[index]
+                              .ticketPrice}',
                           style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       trailing: ElevatedButton(
                         onPressed: () {
@@ -215,7 +234,8 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
 
                           _showSeatSelectionDialog(context);
                         },
-                        child: Text('Book Now', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                        child: Text('Book Now', style: TextStyle(
+                            fontFamily: 'Pacifico-Regular')),
                       ),
                     ),
                   );
@@ -230,24 +250,31 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
 
   Future<void> _showSeatSelectionDialog(BuildContext context) async {
     final currentContext = context;
-    List<String> allSeats = List.generate(selectedFlight?.availableSeats ?? 0, (index) => (index + 1).toString());
+    bool isBookingInProgress = false;
+
+    List<String> allSeats = List.generate(
+        selectedFlight?.availableSeats ?? 0, (index) => (index + 1).toString());
+
+    List<String> bookedSeats = bookedSeatsMap[selectedFlight!.name] ?? [];
+    allSeats.removeWhere((seat) => bookedSeats.contains(seat));
 
     return showDialog<void>(
       context: currentContext,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Seat Selection - ${selectedFlight?.name ?? ""}', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+          title: Text('Seat Selection - ${selectedFlight?.name ?? ""}',
+              style: TextStyle(fontFamily: 'Pacifico-Regular')),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Available Seats: ${selectedFlight?.availableSeats ?? 0}',
+                  Text('Available Seats: ${allSeats.length}',
                       style: TextStyle(fontFamily: 'Pacifico-Regular')),
-                  SizedBox(height: 15),
+                  SizedBox(height: 16),
                   Text('Selected Seats: ${selectedSeats.join(', ')}',
                       style: TextStyle(fontFamily: 'Pacifico-Regular')),
-                  SizedBox(height: 15),
+                  SizedBox(height: 16),
                   Wrap(
                     spacing: 8.0,
                     runSpacing: 8.0,
@@ -255,7 +282,7 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
                       bool isSelected = selectedSeats.contains(seat);
 
                       return ElevatedButton(
-                        onPressed: () {
+                        onPressed: isBookingInProgress ? null : () {
                           setState(() {
                             if (isSelected) {
                               selectedSeats.remove(seat);
@@ -265,28 +292,43 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: isSelected ? Colors.blueAccent : Colors.white38,
+                          primary: isSelected ? Colors.cyan : Colors.white38,
                         ),
-                        child: Text(seat, style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                        child: Text(seat,
+                            style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       );
                     }).toList(),
                   ),
-                  SizedBox(height: 13),
+                  SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: isBookingInProgress ? null : () {
                           Navigator.of(currentContext).pop();
                         },
-                        child: Text('Cancel', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                        child: Text('Cancel', style: TextStyle(
+                            fontFamily: 'Pacifico-Regular')),
                       ),
                       ElevatedButton(
-                        onPressed: () async {
-                          Navigator.of(currentContext).pop();
+                        onPressed: isBookingInProgress ? null : () async {
+                          setState(() {
+                            isBookingInProgress = true;
+                          });
+                          bookedSeatsMap.update(selectedFlight!.name, (value) =>
+                          [
+                            ...value,
+                            ...selectedSeats
+                          ], ifAbsent: () => [...selectedSeats]);
                           await _showConfirmationDialog(currentContext);
+                          setState(() {
+                            isBookingInProgress = false;
+                          });
                         },
-                        child: Text('Book Now', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                        child: isBookingInProgress
+                            ? CircularProgressIndicator()
+                            : Text('Book Now', style: TextStyle(
+                            fontFamily: 'Pacifico-Regular')),
                       ),
                     ],
                   ),
@@ -298,7 +340,6 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
       },
     );
   }
-
 
   Future<void> _showConfirmationDialog(BuildContext context) async {
     final currentContext = context;
@@ -314,6 +355,13 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
       totalPrice: (selectedFlight?.ticketPrice ?? 0) * selectedSeats.length,
     );
 
+    // Update booked seats map
+    bookedSeatsMap.update(selectedFlight!.name, (value) =>
+    [
+      ...value,
+      ...selectedSeats
+    ], ifAbsent: () => [...selectedSeats]);
+
     showDialog<void>(
       context: currentContext,
       builder: (BuildContext context) {
@@ -322,10 +370,12 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Flight: ${selectedFlight?.name ?? ""}', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+              Text('Flight: ${selectedFlight?.name ?? ""}',
+                  style: TextStyle(fontFamily: 'Pacifico-Regular')),
               Text('Selected Seats: ${selectedSeats.join(', ')}',
                   style: TextStyle(fontFamily: 'Pacifico-Regular')),
-              Text('Total Price: \$${(selectedFlight?.ticketPrice ?? 0) * selectedSeats.length}',
+              Text('Total Price: \$${(selectedFlight?.ticketPrice ?? 0) *
+                  selectedSeats.length}',
                   style: TextStyle(fontFamily: 'Pacifico-Regular')),
             ],
           ),
@@ -334,7 +384,8 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
               onPressed: () {
                 Navigator.of(currentContext).pop();
               },
-              child: Text('OK', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+              child: Text(
+                  'OK', style: TextStyle(fontFamily: 'Pacifico-Regular')),
             ),
           ],
         );
@@ -342,6 +393,8 @@ class _FlightSearchResultsPageState extends State<FlightSearchResultsPage> {
     );
   }
 }
+
+
 
 class IconWithText extends StatelessWidget {
   final IconData icon;
