@@ -1,8 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wanderhub/home2.dart';
+import 'package:wanderhub/messagePage.dart';
+import 'authListener.dart';
+import 'databaseService.dart';
+
 
 class TourPage extends StatelessWidget {
+  User? getCurrentUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
+
   @override
   Widget build(BuildContext context) {
+    String uid = getCurrentUser()?.uid ?? '';
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -30,37 +41,59 @@ class TourPage extends StatelessWidget {
                 '\Tk6200',
 
               ),
-              buildTourCard(
-                context,
-                'Place2',
-                'Sylhet',
-                'https://upload.wikimedia.org/wikipedia/commons/4/4d/Jaflong_Sylhet.jpg',
-                'Sylhet, a picturesque region in northeastern Bangladesh, is known for its lush green landscapes, tea gardens, and cultural richness.',
-                '2022-02-15',
-                '\Tk5400',
-              ),
-              buildTourCard(
-                context,
-                'Place3',
-                'Rangamati',
-                'https://upload.wikimedia.org/wikipedia/commons/7/73/Hanging_bridge_of_Rangamati%2C_Bangladesh._.jpg',
-                'Rangamati is a picturesque district located in the Chittagong Hill Tracts of Bangladesh. ',
-                '2022-03-30',
-                '\Tk6000',
-              ),
-              buildTourCard(
-                context,
-                'Place3',
-                'Bandarban',
-                'https://images.unsplash.com/photo-1651923675044-a25776b5a25f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVnaGxhJTIwYmFuZGFyYmFufGVufDB8fDB8fHww',
-                'Welcome to Bandarban, a mesmerizing destination nestled in the Chittagong Hill Tracts.',
-                '2022-05-10',
-                '\Tk5150',
-              ),
             ],
           ),
         ),
       ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Have you registered?",
+                  style: TextStyle(
+                    fontFamily: 'Pacifico-Regular',
+                  ),),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home2(uid)),
+                      );
+                    },
+                    child: Text("Yes",
+                    style: TextStyle(
+              fontFamily: 'Pacifico-Regular',
+                      color:Colors.green,
+                      fontSize:15,
+              ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Close the dialog
+                    },
+                    child: Text("No",
+                      style: TextStyle(
+                        fontFamily: 'Pacifico-Regular',
+                        color:Colors.red,
+                        fontSize:15,
+                      ),),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: Icon(Icons.chat, color: Colors.white, size: 30,),
+        backgroundColor: Colors.cyan,
+      ),
+
+
     );
   }
 
@@ -109,7 +142,7 @@ class TourPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
-                        fontFamily: 'Pacifico-Regular',
+                      fontFamily: 'Pacifico-Regular',
                     ),
                   ),
                   Text(
