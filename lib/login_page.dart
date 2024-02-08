@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wanderhub/forgetPass.dart';
 import 'package:wanderhub/main.dart';
 import 'databaseService.dart';
 import 'dart:async';
@@ -48,7 +49,7 @@ class _LogInState extends State<LoginPage> {
               'Welcome to WanderHub!',
               style: TextStyle(
               fontFamily: 'Pacifico-Regular',
-                fontSize: 25,
+                fontSize: 28,
               ),
               ),
               SizedBox(
@@ -58,7 +59,7 @@ class _LogInState extends State<LoginPage> {
                 'Log In',
                 style: TextStyle(
                   fontFamily: 'Pacifico-Regular',
-                  fontSize: 20,
+                  fontSize: 22,
                   color:Colors.cyan[800],
                 ),
               ),
@@ -69,11 +70,11 @@ class _LogInState extends State<LoginPage> {
                 'Login to get access to your account.',
                 style: TextStyle(
                   fontFamily: 'Pacifico-Regular',
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
               SizedBox(
-                height: 30.0,
+                height: 39.0,
               ),
               TextFormField(
                 controller: emailController,
@@ -105,7 +106,7 @@ class _LogInState extends State<LoginPage> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
               SizedBox(
-                height: 30.0,
+                height: 50.0,
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -119,11 +120,12 @@ class _LogInState extends State<LoginPage> {
                     );
 
                     if (result is UserCredential) {
+                      login=true;
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeScreen(),
-                          //builder: (context) => const MyApp()
+                          //builder: (context) => HomeScreen(),
+                          builder: (context) => const MyApp()
                         ),
                       );
 
@@ -165,37 +167,67 @@ class _LogInState extends State<LoginPage> {
                   style: TextStyle(
                     fontFamily: 'Pacifico-Regular',
                     color: Colors.cyan[800],
+                    fontSize: 18,
                   ),
                 ),
               ),
 
               SizedBox(
-                height: 20,
+                height: 45,
               ),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "No Account?",
-                    style: TextStyle(
-                      fontFamily: 'Pacifico-Regular',
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
                   GestureDetector(
                     onTap: () {
-                      widget.togglePage();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ForgotPasswordPage(),
+                        ),
+                      );
                     },
                     child: Text(
-                      "Register",
+                      'Forgot password ?',
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         color: Colors.cyan[800],
+                        fontSize: 17,
                         fontFamily: 'Pacifico-Regular',
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "No Account?",
+                        style: TextStyle(
+                          fontFamily: 'Pacifico-Regular',
+                          fontSize: 17,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          widget.togglePage();
+                        },
+                        child: Text(
+                          "Register",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.cyan[800],
+                            fontFamily: 'Pacifico-Regular',
+                            fontSize: 17,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

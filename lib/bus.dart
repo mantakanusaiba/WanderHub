@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'databaseService.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class BusPage extends StatelessWidget {
   @override
@@ -15,6 +16,7 @@ class BusPage extends StatelessWidget {
     );
   }
 }
+
 class BusBookingPage extends StatefulWidget {
   @override
   _BusBookingPageState createState() => _BusBookingPageState();
@@ -27,7 +29,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
   String? _selectedTo;
 
   final List<String> destinations = ['Dhaka', 'Chattogram', 'Sylhet'];
-  final List<String> destination2 = ['Cox\s Bazar', 'Rangamati', 'Bandarban','Sylhet','Sunamganj'];
+  final List<String> destination2 = ['Cox\'s Bazar', 'Rangamati', 'Bandarban','Sylhet','Sunamganj'];
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +98,11 @@ class _BusBookingPageState extends State<BusBookingPage> {
                         });
                       }
                     },
-                    child: Text('Date of Journey',
-                        style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.cyan,
+                      textStyle: TextStyle(fontFamily: 'Pacifico-Regular'),
+                    ),
+                    child: Text('Date of Journey'),
                   ),
                 ),
                 SizedBox(width: 16),
@@ -116,8 +121,11 @@ class _BusBookingPageState extends State<BusBookingPage> {
                         });
                       }
                     },
-                    child: Text('Date of Return',
-                        style: TextStyle( fontFamily: 'Pacifico-Regular')),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.cyan,
+                      textStyle: TextStyle(fontFamily: 'Pacifico-Regular'),
+                    ),
+                    child: Text('Date of Return'),
                   ),
                 ),
               ],
@@ -137,13 +145,16 @@ class _BusBookingPageState extends State<BusBookingPage> {
                   ),
                 );
               },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.cyan,
+                textStyle: TextStyle(fontFamily: 'Pacifico-Regular'),
+              ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.search),
                   SizedBox(width: 8),
-                  Text('Search Bus',
-                      style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                  Text('Search Bus'),
                 ],
               ),
             ),
@@ -153,6 +164,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
     );
   }
 }
+
 
 class BusDetails {
   final String name;
@@ -182,14 +194,15 @@ class BusSearchResultsPage extends StatefulWidget {
   @override
   _BusSearchResultsPageState createState() => _BusSearchResultsPageState();
 }
-
 class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
   List<String> selectedSeats = [];
   BusDetails? selectedBus;
 
+  Map<String, List<String>> bookedSeatsMap = {};
+
   final List<BusDetails> busList = [
-    BusDetails(name: 'Shohag Paribahan(AC)', availableSeats: 20, ticketPrice: 1600.0),
-    BusDetails(name: 'Shohag Paribahan(Non AC)', availableSeats: 15, ticketPrice: 800.0),
+    BusDetails(
+        name: 'Shohag Paribahan(AC)', availableSeats: 20, ticketPrice: 1600.0),
   ];
 
   @override
@@ -200,7 +213,7 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
           'Bus Search Results',
           style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular'),
         ),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.cyan,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -210,11 +223,11 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
             Text('From: ${widget.from}',
                 style: TextStyle(fontFamily: 'Pacifico-Regular')),
             Text('To: ${widget.to}',
-                style: TextStyle( fontFamily: 'Pacifico-Regular')),
+                style: TextStyle(fontFamily: 'Pacifico-Regular')),
             Text('Date of Journey: ${widget.dateOfJourney?.toLocal()}',
-                style: TextStyle( fontFamily: 'Pacifico-Regular')),
+                style: TextStyle(fontFamily: 'Pacifico-Regular')),
             Text('Date of Return: ${widget.dateOfReturn?.toLocal()}',
-                style: TextStyle( fontFamily: 'Pacifico-Regular')),
+                style: TextStyle(fontFamily: 'Pacifico-Regular')),
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
@@ -222,10 +235,13 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
-                      title: Text(busList[index].name,style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                      title: Text(busList[index].name,
+                          style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       subtitle: Text(
-                          'Available Seats: ${busList[index].availableSeats}, Ticket Price: \$${busList[index].ticketPrice}',
-                          style: TextStyle( fontFamily: 'Pacifico-Regular')
+                          'Available Seats: ${busList[index]
+                              .availableSeats}, Ticket Price: \$${busList[index]
+                              .ticketPrice}',
+                          style: TextStyle(fontFamily: 'Pacifico-Regular')
                       ),
                       trailing: ElevatedButton(
                         onPressed: () {
@@ -236,7 +252,7 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                           _showSeatSelectionDialog(context);
                         },
                         child: Text('Book Now',
-                            style: TextStyle( fontFamily: 'Pacifico-Regular')),
+                            style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       ),
                     ),
                   );
@@ -248,21 +264,29 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
       ),
     );
   }
- Future<void> _showSeatSelectionDialog(BuildContext context) async {
+
+  Future<void> _showSeatSelectionDialog(BuildContext context) async {
     final currentContext = context;
-    List<String> allSeats = List.generate(selectedBus?.availableSeats ?? 0, (index) => (index + 1).toString());
+    bool isBookingInProgress = false; // New state variable
+
+    List<String> allSeats = List.generate(
+        selectedBus?.availableSeats ?? 0, (index) => (index + 1).toString());
+
+    List<String> bookedSeats = bookedSeatsMap[selectedBus!.name] ?? [];
+    allSeats.removeWhere((seat) => bookedSeats.contains(seat));
 
     return showDialog<void>(
       context: currentContext,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Seat Selection - ${selectedBus?.name ?? ""}', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+          title: Text('Seat Selection - ${selectedBus?.name ?? ""}',
+              style: TextStyle(fontFamily: 'Pacifico-Regular')),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Available Seats: ${selectedBus?.availableSeats ?? 0}',
+                  Text('Available Seats: ${allSeats.length}',
                       style: TextStyle(fontFamily: 'Pacifico-Regular')),
                   SizedBox(height: 16),
                   Text('Selected Seats: ${selectedSeats.join(', ')}',
@@ -275,7 +299,7 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                       bool isSelected = selectedSeats.contains(seat);
 
                       return ElevatedButton(
-                        onPressed: () {
+                        onPressed: isBookingInProgress ? null : () {
                           setState(() {
                             if (isSelected) {
                               selectedSeats.remove(seat);
@@ -285,9 +309,10 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: isSelected ? Colors.blueAccent : Colors.white38,
+                          primary: isSelected ? Colors.cyan : Colors.white38,
                         ),
-                        child: Text(seat, style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                        child: Text(seat,
+                            style: TextStyle(fontFamily: 'Pacifico-Regular')),
                       );
                     }).toList(),
                   ),
@@ -296,17 +321,31 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: isBookingInProgress ? null : () {
                           Navigator.of(currentContext).pop();
                         },
-                        child: Text('Cancel', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                        child: Text('Cancel', style: TextStyle(
+                            fontFamily: 'Pacifico-Regular')),
                       ),
                       ElevatedButton(
-                        onPressed: () async {
-                          Navigator.of(currentContext).pop();
+                        onPressed: isBookingInProgress ? null : () async {
+                          setState(() {
+                            isBookingInProgress = true;
+                          });
+                          bookedSeatsMap.update(selectedBus!.name, (value) =>
+                          [
+                            ...value,
+                            ...selectedSeats
+                          ], ifAbsent: () => [...selectedSeats]);
                           await _showConfirmationDialog(currentContext);
+                          setState(() {
+                            isBookingInProgress = false;
+                          });
                         },
-                        child: Text('Book Now', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+                        child: isBookingInProgress
+                            ? CircularProgressIndicator()
+                            : Text('Book Now', style: TextStyle(
+                            fontFamily: 'Pacifico-Regular')),
                       ),
                     ],
                   ),
@@ -342,10 +381,12 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Bus: ${selectedBus?.name ?? ""}', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+              Text('Bus: ${selectedBus?.name ?? ""}',
+                  style: TextStyle(fontFamily: 'Pacifico-Regular')),
               Text('Selected Seats: ${selectedSeats.join(', ')}',
                   style: TextStyle(fontFamily: 'Pacifico-Regular')),
-              Text('Total Price: \$${(selectedBus?.ticketPrice ?? 0) * selectedSeats.length}',
+              Text('Total Price: \$${(selectedBus?.ticketPrice ?? 0) *
+                  selectedSeats.length}',
                   style: TextStyle(fontFamily: 'Pacifico-Regular')),
             ],
           ),
@@ -353,41 +394,40 @@ class _BusSearchResultsPageState extends State<BusSearchResultsPage> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(currentContext).pop();
+                _showNotification();
               },
-              child: Text('OK', style: TextStyle(fontFamily: 'Pacifico-Regular')),
+              child: Text(
+                  'OK', style: TextStyle(fontFamily: 'Pacifico-Regular')),
             ),
           ],
         );
       },
     );
   }
-}
 
-class IconWithText extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final VoidCallback onPressed;
-
-  IconWithText({
-    required this.icon,
-    required this.text,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          IconButton(
-            icon: Icon(icon),
-            onPressed: onPressed,
-          ),
-          SizedBox(height: 8),
-          Text(text,
-              style: TextStyle(fontSize: 24, fontFamily: 'Pacifico-Regular')),
-        ],
-      ),
-    );
+  void _showNotification() async {
+    try {
+      var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+        'channel_id',
+        'channel_name',
+        //'channel_description',
+        playSound: true,
+        importance: Importance.max,
+        priority: Priority.high,
+      );
+      var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+      );
+      await FlutterLocalNotificationsPlugin().show(
+        0,
+        'Booking Confirmed',
+        'Your booking has been confirmed.',
+        platformChannelSpecifics,
+        payload: 'booking_confirmed',
+      );
+    } catch (e) {
+      print('Error showing notification: $e');
+    }
   }
 }
+

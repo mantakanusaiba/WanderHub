@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:wanderhub/chat_screen.dart';
+import 'package:wanderhub/notificationDestinationPage.dart';
+import 'chat_screen.dart';
 import 'package:wanderhub/databaseService.dart';
 import 'package:wanderhub/home.dart';
 import 'package:wanderhub/login_page.dart';
-import 'chat_screen.dart';
 import 'authListener.dart';
 import 'firebase_options.dart';
 import 'tour_page.dart';
@@ -17,36 +17,15 @@ import 'others_page.dart';
 import 'business.dart';
 import 'global_variables.dart';
 
-
-/*
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(MyApp());
-}
-
-
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomeScreen(
-        user: null,
-      ),
-    );
-  }
-}
- */
-
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
+  MaterialApp(
+    debugShowCheckedModeBanner: false,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -56,6 +35,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: AuthListener(),
+      routes: {
+        '/notice_page': (context) => NotificationDestination(),
+      },
     );
   }
 }
@@ -69,13 +51,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-   /* String get currentUserId {
-    final user = FirebaseAuth.instance.currentUser;
-    return user!.email!;
-  }
-
-    */
 
   void _handleLoginButtonPress(BuildContext context) {
     Navigator.push(
@@ -110,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _handleFlightButtonPress(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => FlightPage()),
+      MaterialPageRoute(builder: (context) => FlightBookingPage()),
     );
   }
 

@@ -55,6 +55,23 @@ class DatabaseService1{
     });
   }
 }
+class DatabaseService6 {
+
+  Future<void> storeSelectedDates(DateTime? checkInDate, DateTime? checkOutDate) async {
+    try {
+      // Reference to Firestore collection (you may need to replace 'dates' with your desired collection name)
+      CollectionReference datesCollection = FirebaseFirestore.instance.collection('dates');
+
+      // Store the selected dates in Firestore
+      await datesCollection.add({
+        'checkInDate': checkInDate,
+        'checkOutDate': checkOutDate,
+      });
+    } catch (e) {
+      print('Error storing dates: $e');
+    }
+  }
+}
 
 class DatabaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
